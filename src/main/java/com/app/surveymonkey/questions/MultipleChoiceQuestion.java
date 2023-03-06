@@ -1,21 +1,29 @@
 package com.app.surveymonkey.questions;
 
+import jakarta.persistence.*;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
+@Entity
+@DiscriminatorValue(value = "MCQ")
 public class MultipleChoiceQuestion extends Question {
-    private Collection<String> choices;
+
+    @ElementCollection
+    private List<String> choices;
     private int limit;
     private String answer;
     public MultipleChoiceQuestion() {
-        this.choices = new HashSet();
         this.limit = 0;
         this.answer = null;
+        this.choices = new ArrayList<>();
     }
 
     // ----------------- GETTERS & SETTERS -------------------
-
-    public Collection<String> getChoices() {
+    public List<String> getChoices() {
         return this.choices;
     }
 

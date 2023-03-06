@@ -1,5 +1,9 @@
 package com.app.surveymonkey.questions;
 
+import jakarta.persistence.*;
+
+@Entity
+@DiscriminatorValue(value = "TQ")
 public class TextQuestion extends Question {
     private String answer;
 

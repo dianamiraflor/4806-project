@@ -1,6 +1,15 @@
 package com.app.surveymonkey.questions;
+import jakarta.persistence.*;
 
-public class Question {
+import java.io.Serializable;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type")
+public class Question implements Serializable {
+
+    @Id
+    @GeneratedValue
     private Long id;
     private String question;
 
