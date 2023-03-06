@@ -1,18 +1,25 @@
 package com.app.surveymonkey.questions;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
+@Entity
+@DiscriminatorValue(value = "RQ")
 public class RangeQuestion extends Question {
-    private Collection<Integer> rangeList;
+
+    @ElementCollection
+    private List<Integer> rangeList;
     private int answer;
 
     private int min;
     private int max;
 
     public RangeQuestion() {
-
-        this.rangeList = new HashSet();
+        this.rangeList = new ArrayList<>();
         this.min = 0;
         this.max = 0;
         this.answer = 0;
@@ -34,7 +41,7 @@ public class RangeQuestion extends Question {
     public void setMax(int max) {
         this.max = max;
     }
-    public Collection<Integer> getRangeList() {
+    public List<Integer> getRangeList() {
         return this.rangeList;
     }
 

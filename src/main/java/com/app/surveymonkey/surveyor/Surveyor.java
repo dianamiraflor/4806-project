@@ -1,15 +1,22 @@
 package com.app.surveymonkey.surveyor;
 
 import com.app.surveymonkey.survey.Survey;
+import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.HashSet;
 
+@Entity
 public class Surveyor {
+
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String username;
     private String password;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Survey> surveyList;
 
     public Surveyor() {

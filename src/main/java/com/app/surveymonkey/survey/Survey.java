@@ -5,14 +5,21 @@ import com.app.surveymonkey.questions.Question;
 import com.app.surveymonkey.questions.RangeQuestion;
 import com.app.surveymonkey.questions.TextQuestion;
 import com.app.surveymonkey.surveyor.Surveyor;
+import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+@Entity
 public class Survey {
+
+    @Id
+    @GeneratedValue
     private Long id;
     private String surveyName;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Question> questions;
 
     public Survey() {
