@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <table class="table table-striped">
+    <tr>
+      <th>Id</th>
+      <th>name</th>
+      <th>username</th>
+    </tr>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"/>
+      <td th:text="${user.name}"/>
+      <td th:text="${user.username}"/>
+    </tr>
+  </table>
+</body>
+</html>

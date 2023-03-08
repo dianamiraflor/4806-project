@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Survey</title>
+</head>
+<body>
+<h1>Create Survey</h1>
+<form method="post"  th:action="@{/newSurvey}" th:object="${survey}">
+  <label for="name">Survey Name:</label>
+  <input type="text" id="name" name="name" th:field="*{surveyName}" />
+  <button type="submit">Add Questions</button>
+</form>
+</body>
+</html>
