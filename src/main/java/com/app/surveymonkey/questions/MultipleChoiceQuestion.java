@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue(value = "MCQ")
+@PrimaryKeyJoinColumn(referencedColumnName="id")
 public class MultipleChoiceQuestion extends Question {
 
     @ElementCollection
