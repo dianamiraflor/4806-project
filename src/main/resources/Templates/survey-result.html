@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey Result</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h1>Survey Result for User <span th:text="${response.userId}"></span></h1>
+<h2>Survey: <span th:text="${survey.name}"></span></h2>
+
+<table>
+    <tr th:each="answer : ${response.answers}">
+        <td th:text="${answer.question.text}"></td>
+        <td>
+				<span th:if="${answer.question.type == 'OPEN_ENDED'}">
+					<p th:text="${answer.text}"></p>
+				</span>
+
+            <span th:if="${answer.question.type == 'RANGE'}">
+					<p th:text="${answer.value}"></p>
+				</span>
+
+            <span th:if="${answer.question.type == 'CHOICE'}">
+					<p th:text="${answer.choice}"></p>
+				</span>
+        </td>
+    </tr>
+</table>
+
+<script>
+    var data = [];
+    var layout = {title: 'Survey Response Data'};
+    /* Here, we can add the appropriate code to populate the 'data' array with the correct data for each question in the survey */
+    Plotly.newPlot('plot', data, layout);
+</script>
+</body>
+</html>

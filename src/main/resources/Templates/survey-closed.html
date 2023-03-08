@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Survey Closed</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h1>Survey Closed: <span th:text="${survey.name}"></span></h1>
+
+<h2>Survey Results</h2>
+
+<table>
+  <tr th:each="question : ${survey.questions}">
+    <td th:text="${question.text}"></td>
+    <td>
+				<span th:if="${question.type == 'OPEN_ENDED'}">
+					<ul>
+						<li th:each="answer : ${question.answers}" th:text="${answer}"></li>
+					</ul>
+				</span>
+
+      <span th:if="${question.type == 'RANGE'}">
+					<div id="histogram"></div>
+					<script>
+						var data = [
+                          {
+                            x: [/* here we can populate the histogram data with the range values*/],
+                            type: 'histogram',
+                          },
+                        ];
+                        var layout = {
+                          title: 'Histogram of Responses',
+                          xaxis: {title: 'Value'},
+                          yaxis: {title: 'Count'},
+                        };
+                        Plotly.newPlot('histogram', data, layout);
+					</script>
+				</span>
+
+      <span th:if="${question.type == 'CHOICE'}">
+					<div id="piechart"></div>
+					<script>
+						var data = [{
+                          values: [/* here we can populate the pie chart data with the choice options */],
+                          labels: [/* here we can populate the pie chart labels with the choice options */],
+                          type: 'pie'
+                        }];
+                        var layout = {
+                          title: 'Pie Chart of Responses'
+                        };
+                        Plotly.newPlot('piechart', data, layout);
+					</script>
+				</span>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

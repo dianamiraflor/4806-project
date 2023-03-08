@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Survey</title>
+</head>
+<body>
+<h1>Create Survey</h1>
+<form method="post" th:object="${survey}" th:action="@{/surveys}">
+    <label for="name">Survey Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" />
+    <br /><br />
+
+    <h2>Questions:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question, status : ${survey.questions}">
+            <td>
+                <input type="text" th:field="*{questions[__${status.index}__].text}" th:value="${question.text}" />
+            </td>
+            <td>
+                <select name="questions[__${status.index}__].type" th:field="*{questions[__${status.index}__].type}">
+                    <option value="OPEN_ENDED" th:selected="${question.type == 'OPEN_ENDED'}">Open-Ended</option>
+                    <option value="RANGE" th:selected="${question.type == 'RANGE'}">Range</option>
+                    <option value="CHOICE" th:selected="${question.type == 'CHOICE'}">Choice</option>
+                </select>
+            </td>
+            <td>
+                <a th:href="@{'/surveys/' + ${survey.id} + '/questions/' + ${status.index} + '/delete'}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Save Survey</button>
+</form>
+
+<form method="post" th:action="@{'/surveys/' + ${survey.id} + '/questions'}">
+    <h2>Add a Question:</h2>
+    <label for="text">Question Text:</label>
+    <input type="text" id="text" name="text" />
+    <br /><br />
+
+    <label for="type">Question Type:</label>
+    <select id="type" name="type">
+        <option value="OPEN_ENDED">Open-Ended</option>
+        <option value="RANGE">Range</option>
+        <option value="CHOICE">Choice</option>
+    </select>
+    <br /><br />
+
+    <div th:if="${#fields.hasErrors('text') || #fields.hasErrors('type')}">
+        <p>Please correct the errors below:</p>
+        <ul>
+            <li th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text is required</li>
+            <li th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type is required</li>
+        </ul>
+    </div>
+
+    <button type="submit">Add Question</button>
+</form>
+</body>
+</html>
