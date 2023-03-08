@@ -11,7 +11,7 @@ public class Surveyor {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String name;
     private String username;
     private String password;
@@ -23,7 +23,7 @@ public class Surveyor {
         this.surveyList = new HashSet();
     }
 
-    public Surveyor(long id, String name, String username, String password) {
+    public Surveyor(int id, String name, String username, String password) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -39,11 +39,11 @@ public class Surveyor {
 
     // ----------------- GETTERS & SETTERS -------------------
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
