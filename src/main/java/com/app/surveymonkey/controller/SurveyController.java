@@ -49,6 +49,7 @@ public class SurveyController {
         questionRepo.save(Questions);
         Survey survey = surveyrepo.findById(surveyID);
         survey.addQuestion(Questions);
+        surveyrepo.save(survey);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
         model.addAttribute("NewQuestion", new Question());
@@ -60,6 +61,7 @@ public class SurveyController {
         Question tempQ = questionRepo.findById(questionID);
         Survey survey = surveyrepo.findById(surveyID);
         survey.removeQuestion(tempQ);
+        surveyrepo.save(survey);
         questionRepo.delete(tempQ);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
