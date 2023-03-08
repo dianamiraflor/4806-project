@@ -2,7 +2,7 @@
 
 ## Current State
 
-https://github.com/users/dianamiraflor/projects/2
+[Link to current state](https://github.com/users/dianamiraflor/projects/2)
 
 ## Plans for Next Sprint
 
