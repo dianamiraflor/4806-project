@@ -4,12 +4,12 @@ package com.app.surveymonkey.controller;
 import com.app.surveymonkey.questions.Question;
 import com.app.surveymonkey.repositories.QuestionRepo;
 import com.app.surveymonkey.repositories.SurveyRepo;
-import com.app.surveymonkey.repositories.SurveyorRepo;
+
 import com.app.surveymonkey.survey.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -69,11 +69,11 @@ public class SurveyController {
         return "survey-create";
     }
 
-    @PostMapping("/savesurvey")
-    public String saveSurvey(@ModelAttribute Survey survey) {
+    @PostMapping("/savesurvey/{surveyId}")
+    public String saveSurvey(@PathVariable("surveyId") int surveyId) {
+        Survey survey =surveyrepo.findById(surveyId);
         survey.setOpen(true);
-        surveyrepo.save(survey);
-    return "survey-initialize";
+    return "redirect:/viewsurvey/"+surveyId;
     }
 
     @GetMapping("/viewsurvey/{surveyId}")
