@@ -23,6 +23,7 @@ public class RangeQuestion extends Question {
         this.min = 0;
         this.max = 0;
         this.answer = 0;
+        this.Qtype = "RQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------

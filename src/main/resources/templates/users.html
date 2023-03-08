@@ -12,9 +12,9 @@
       <th>username</th>
     </tr>
     <tr th:each="user : ${users}">
-      <td th:text="${count.id}"/>
-      <td th:text="${count.name}"/>
-      <td th:text="${count.username}"/>
+      <td th:text="${user.id}"/>
+      <td th:text="${user.name}"/>
+      <td th:text="${user.username}"/>
     </tr>
   </table>
 </body>

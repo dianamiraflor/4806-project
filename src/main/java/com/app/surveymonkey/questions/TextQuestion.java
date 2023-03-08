@@ -9,6 +9,7 @@ public class TextQuestion extends Question {
 
     public TextQuestion() {
         this.answer = null;
+        this.Qtype="TQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------
