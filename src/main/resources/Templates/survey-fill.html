@@ -1,67 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Fill Survey</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Fill Survey</title>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 <h1>Fill Survey: <span th:text="${survey.name}"></span></h1>
 
 <form th:action="@{/submit-survey}" th:object="${surveyResponse}" method="post">
-  <table>
-    <tr th:each="question : ${survey.questions}">
-      <td th:text="${question.text}"></td>
-      <td>
-					<span th:if="${question.type == 'OPEN_ENDED'}">
-						<textarea th:field="*{answers[__${question.id}__]}" rows="4" cols="50"></textarea>
-					</span>
+	<table>
+		<tr th:each="question : ${survey.questions}">
+			<td th:text="${question.text}"></td>
+			<td>
+          <span th:if="${question.type == 'TQ	'}">
+            <textarea th:field="*{answers[__${question.id}__]}" rows="4" cols="50"></textarea>
+          </span>
 
-        <span th:if="${question.type == 'RANGE'}">
-						<input type="range" th:field="*{answers[__${question.id}__]}" th:min="${question.min}" th:max="${question.max}" step="1">
-						<p>
-							<span th:text="'Min: ' + ${question.min}"></span>
-							<span th:text="'Max: ' + ${question.max}"></span>
-						</p>
-						<div id="histogram"></div>
-						<script>
-							var data = [
-                              {
-                                x: [/* here we can populate the histogram data with the range values*/],
-                                type: 'histogram',
-                              },
-                            ];
-                            var layout = {
-                              title: 'Histogram of Responses',
-                              xaxis: {title: 'Value'},
-                              yaxis: {title: 'Count'},
-                            };
-                            Plotly.newPlot('histogram', data, layout);
-						</script>
-					</span>
+				<span th:if="${question.type == 'RQ'}">
+            <input type="range" th:field="*{answers[__${question.id}__]}" th:min="${question.min}" th:max="${question.max}" step="1">
+            <p>
+              <span th:text="'Min: ' + ${question.min}"></span>
+              <span th:text="'Max: ' + ${question.max}"></span>
+            </p>
+        </span>
 
-        <span th:if="${question.type == 'CHOICE'}">
-						<select th:field="*{answers[__${question.id}__]}">
-							<option th:each="option : ${question.options}" th:text="${option}"></option>
-						</select>
-						<div id="piechart"></div>
-						<script>
-							var data = [{
-                              values: [/* here we can populate the pie chart data with the choice options */],
-                              labels: [/* here we can populate the pie chart labels with the choice options */],
-                              type: 'pie'
-                            }];
-                            var layout = {
-                              title: 'Pie Chart of Responses'
-                            };
-                            Plotly.newPlot('piechart', data, layout);
-						</script>
-					</span>
-      </td>
-    </tr>
-  </table>
+				<span th:if="${question.type == 'MCQ'}">
+            <select th:field="*{answers[__${question.id}__]}">
+              <option th:each="option : ${question.options}" th:text="${option}"></option>
+            </select>
+        </span>
+			</td>
+		</tr>
+	</table>
 
-  <button type="submit">Submit Survey</button>
+	<button type="submit">Submit Survey</button>
 </form>
 </body>
 </html>
+
