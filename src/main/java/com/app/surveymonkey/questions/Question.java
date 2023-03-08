@@ -10,8 +10,18 @@ public class Question implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String question;
+
+    public String getQType() {
+        return Qtype;
+    }
+
+    public void setQType(String Qtype) {
+        this.Qtype = Qtype;
+    }
+
+    protected String Qtype;
 
     public Question() {
         this.question = null;
@@ -19,11 +29,11 @@ public class Question implements Serializable {
 
     // ----------------- GETTERS & SETTERS -------------------
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

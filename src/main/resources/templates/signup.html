@@ -7,8 +7,7 @@
 <body>
 
     <H1>Sign Up</H1>
-    <form action="#" th:action="@{/signup}" th:object="${Surveyor}" method = "post">
-        <p>Id: <input type="text" th:field="*{id}"/></p>
+    <form action="#" th:action="@{/signup}" th:object="${surveyor}" method = "post">
         <p>Name: <input type="text" th:field="*{name}"/></p>
         <p>Username: <input type="text" th:field="*{username}"/></p>
         <p>Password: <input type="text" th:field="*{password}"/></p>

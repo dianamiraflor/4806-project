@@ -13,15 +13,24 @@ public class SurveyorController {
 
     @Autowired private SurveyorRepo surveyorRepo;
 
+
    @GetMapping("/login")
-   public String login(){
+   public String loadlogin(){
        return "login";
    }
 
-
+   @PostMapping("/login")
+   public String login(@ModelAttribute String username, @ModelAttribute String password){
+       Surveyor tempSurveyor = surveyorRepo.findByUsername(username);
+       if(tempSurveyor.getPassword()!=password){
+           return "badlogin";
+       }else {
+           return "index";
+       }
+       }
     @GetMapping("/signup")
     public String signup(Model model){
-       model.addAttribute("Surveyor", new Surveyor());
+       model.addAttribute("surveyor", new Surveyor());
         return "signup";
     }
 
@@ -33,8 +42,9 @@ public class SurveyorController {
 
 
     @PostMapping(path = "/signup")
-    public String createSurveyor(@RequestBody Surveyor surveyor){
-       return surveyorRepo.save(surveyor).toString();
+    public String createSurveyor(@ModelAttribute Surveyor surveyor){
+       surveyorRepo.save(surveyor);
+       return "users";
 
     }
 

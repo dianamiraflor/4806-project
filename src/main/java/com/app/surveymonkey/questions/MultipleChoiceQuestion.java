@@ -20,6 +20,7 @@ public class MultipleChoiceQuestion extends Question {
         this.limit = 0;
         this.answer = null;
         this.choices = new ArrayList<>();
+        this.Qtype = "MCQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------

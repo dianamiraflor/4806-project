@@ -18,15 +18,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="questions: ${survey.questions}">
+        <tr th:each="question: ${survey.questions}">
             <td>
-                <p type="text"  th:text="${questions.questionText}" />
+                <p type="text"  th:value="${question.question}" />
             </td>
             <td>
-                <p  type="text" th:text="${questions.QType}" />
+                <p  type="text" th:value="${question.QType}" />
             </td>
             <td>
-                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
+                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${question.id}}">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -35,27 +35,27 @@
     <button type="submit">Save Survey</button>
 </form>
 
-<form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
+<form method="post" th:object="${Question}" th:action="@{'/surveys/' + ${survey.id}}">
     <h2>Add a Question:</h2>
-    <p>Question Text: <input type="text" th:field="*{questionText}"/></p>
+    <p>Question Text: <input type="text" th:field="*{question}"/></p>
     <br /><br />
 
     <label for="type">Question Type:</label>
     <select id="type" name="type" th:field="*{QType}">
-        <option value="TQ">Open-Ended</option>
-        <option value="RQ">Range</option>
-        <option value="MCQ">Choice</option>
+        <option value="OPEN_ENDED">Open-Ended</option>
+        <option value="RANGE">Range</option>
+        <option value="CHOICE">Choice</option>
     </select>
     <br /><br />
 
-<!-- causing an unexpected error -->
-    <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
-         <p>Please correct the errors below:</p>
-         <ul>
-             <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
-             <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
-         </ul>
-     </div>-->
+
+    <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
+        <p>Please correct the errors below:</p>
+        <ul>
+            <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
+            <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
+        </ul>
+    </div>
 
     <button type="submit">Add Question</button>
 </form>

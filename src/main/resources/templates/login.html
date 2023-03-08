@@ -5,7 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<p> Log in!</p>
+    <H1> Log In</H1>
+    <form action="#" th:action="@{/login}" method="post">
+        <p>Username: <input type="text" th:field="" /></p>
+        <p>Password: <input type="text" /></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
 
 </body>
 </html>

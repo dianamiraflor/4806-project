@@ -16,7 +16,17 @@ public class Survey {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    private Boolean open;
     private String surveyName;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -26,9 +36,10 @@ public class Survey {
         this.questions = new HashSet();
     }
 
-    public Survey(long id) {
+    public Survey(int id) {
         this.questions = new HashSet();
         this.id = id;
+        this.open=false;
     }
 
     public void addQuestion(Question question) {
@@ -47,11 +58,11 @@ public class Survey {
     }
 
     // ----------------- GETTERS & SETTERS -------------------
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
