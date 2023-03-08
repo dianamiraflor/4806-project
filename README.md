@@ -8,9 +8,12 @@
 
 Milestone 2
 - Fix bugs with viewing m/c questions and range questions
-- Add surveyor login/singup features
+- Persist surveyor login/singup features throughout session
 - Add feature where users can view surveys
 - Add feature of filling out surveys
+- Add feature of viewing survey results and closing survey
+
+
 
 
 ## Current Schema of Database
