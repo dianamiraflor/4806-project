@@ -63,7 +63,7 @@ public class SurveyController {
         questionRepo.delete(tempQ);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
-        model.addAttribute("Question", new Question());
+        model.addAttribute("NewQuestion", new Question());
         return "survey-create";
     }
 

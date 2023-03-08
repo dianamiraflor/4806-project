@@ -18,15 +18,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="question: ${survey.questions}">
+        <tr th:each="questions: ${survey.questions}">
             <td>
-                <p type="text"  th:value="${question.question}" />
+                <p type="text"  th:text="${questions.questionText}" />
             </td>
             <td>
-                <p  type="text" th:value="${question.QType}" />
+                <p  type="text" th:text="${questions.QType}" />
             </td>
             <td>
-                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${question.id}}">Delete</a>
+                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -35,27 +35,27 @@
     <button type="submit">Save Survey</button>
 </form>
 
-<form method="post" th:object="${Question}" th:action="@{'/surveys/' + ${survey.id}}">
+<form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
     <h2>Add a Question:</h2>
-    <p>Question Text: <input type="text" th:field="*{question}"/></p>
+    <p>Question Text: <input type="text" th:field="*{questionText}"/></p>
     <br /><br />
 
     <label for="type">Question Type:</label>
     <select id="type" name="type" th:field="*{QType}">
-        <option value="OPEN_ENDED">Open-Ended</option>
-        <option value="RANGE">Range</option>
-        <option value="CHOICE">Choice</option>
+        <option value="TQ">Open-Ended</option>
+        <option value="RQ">Range</option>
+        <option value="MCQ">Choice</option>
     </select>
     <br /><br />
 
 
-    <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
+   <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
         <p>Please correct the errors below:</p>
         <ul>
             <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
             <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
         </ul>
-    </div>
+    </div>-->
 
     <button type="submit">Add Question</button>
 </form>
