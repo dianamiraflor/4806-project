@@ -76,4 +76,11 @@ public class SurveyController {
     return "survey-initialize";
     }
 
+    @GetMapping("/viewsurvey/{surveyId")
+    public String viewSurvey(@PathVariable("surveyId") int surveyId, Model model){
+        Survey survey = surveyrepo.findById(surveyId);
+        model.addAttribute("survey", survey);
+        return "survey-view";
+    }
+
 }
