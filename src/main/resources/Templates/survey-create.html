@@ -5,12 +5,9 @@
     <title>Create Survey</title>
 </head>
 <body>
-<h1>Create Survey</h1>
-<form method="post" th:object="${survey}" th:action="@{/surveys}">
-    <label for="name">Survey Name:</label>
-    <input type="text" id="name" name="name" th:field="*{name}" />
-    <br /><br />
+<h1 th:text="${survey.surveyName}"></h1>
 
+<form method="post"  th:action="@{/savesurvey}" th:object="${survey}">
     <h2>Questions:</h2>
     <table>
         <thead>
@@ -21,19 +18,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="question, status : ${survey.questions}">
+        <tr th:each="questions: ${survey.questions}">
             <td>
-                <input type="text" th:field="*{questions[__${status.index}__].text}" th:value="${question.text}" />
+                <p type="text"  th:text="${questions.questionText}" />
             </td>
             <td>
-                <select name="questions[__${status.index}__].type" th:field="*{questions[__${status.index}__].type}">
-                    <option value="OPEN_ENDED" th:selected="${question.type == 'OPEN_ENDED'}">Open-Ended</option>
-                    <option value="RANGE" th:selected="${question.type == 'RANGE'}">Range</option>
-                    <option value="CHOICE" th:selected="${question.type == 'CHOICE'}">Choice</option>
-                </select>
+                <p  type="text" th:text="${questions.QType}" />
             </td>
             <td>
-                <a th:href="@{'/surveys/' + ${survey.id} + '/questions/' + ${status.index} + '/delete'}">Delete</a>
+                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -42,27 +35,27 @@
     <button type="submit">Save Survey</button>
 </form>
 
-<form method="post" th:action="@{'/surveys/' + ${survey.id} + '/questions'}">
+<form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
     <h2>Add a Question:</h2>
-    <label for="text">Question Text:</label>
-    <input type="text" id="text" name="text" />
+    <p>Question Text: <input type="text" th:field="*{questionText}"/></p>
     <br /><br />
 
     <label for="type">Question Type:</label>
-    <select id="type" name="type">
-        <option value="OPEN_ENDED">Open-Ended</option>
-        <option value="RANGE">Range</option>
-        <option value="CHOICE">Choice</option>
+    <select id="type" name="type" th:field="*{QType}">
+        <option value="TQ">Open-Ended</option>
+        <option value="RQ">Range</option>
+        <option value="MCQ">Choice</option>
     </select>
     <br /><br />
 
-    <div th:if="${#fields.hasErrors('text') || #fields.hasErrors('type')}">
-        <p>Please correct the errors below:</p>
-        <ul>
-            <li th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text is required</li>
-            <li th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type is required</li>
-        </ul>
-    </div>
+<!-- causing an unexpected error -->
+    <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
+         <p>Please correct the errors below:</p>
+         <ul>
+             <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
+             <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
+         </ul>
+     </div>-->
 
     <button type="submit">Add Question</button>
 </form>
