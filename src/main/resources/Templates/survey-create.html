@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create Survey</title>
@@ -7,7 +7,7 @@
 <body>
 <h1 th:text="${survey.surveyName}"></h1>
 
-<form method="post"  th:action="@{/savesurvey}" th:object="${survey}">
+<form method="post"  th:action="@{'/savesurvey/'+${survey.id}}" th:object="${survey}">
     <h2>Questions:</h2>
     <table>
         <thead>
@@ -20,10 +20,10 @@
         <tbody>
         <tr th:each="questions: ${survey.questions}">
             <td>
-                <p type="text"  th:text="${questions.questionText}" />
+                <p   th:text="${questions.questionText}" />
             </td>
             <td>
-                <p  type="text" th:text="${questions.QType}" />
+                <p   th:text="${questions.QType}" />
             </td>
             <td>
                 <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
@@ -37,7 +37,7 @@
 
 <form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
     <h2>Add a Question:</h2>
-    <p>Question Text: <input type="text" th:field="*{questionText}"/></p>
+    <p>Question Text: <input  type="text" th:field="*{questionText}"/></p>
     <br /><br />
 
     <label for="type">Question Type:</label>
