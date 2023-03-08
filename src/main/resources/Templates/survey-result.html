@@ -11,28 +11,21 @@
 
 <table>
     <tr th:each="answer : ${response.answers}">
-        <td th:text="${answer.question.text}"></td>
+        <td th:text="${answer.questions.text}"></td>
         <td>
-				<span th:if="${answer.question.type == 'TQ'}">
+				<span th:if="${answer.questions.Qtype == 'TQ'}">
 					<p th:text="${answer.text}"></p>
 				</span>
 
-            <span th:if="${answer.question.type == 'RQ'}">
+            <span th:if="${answer.questions.Qtype == 'RQ'}">
 					<p th:text="${answer.value}"></p>
 				</span>
 
-            <span th:if="${answer.question.type == 'MCQ'}">
+            <span th:if="${answer.questions.Qtype == 'MCQ'}">
 					<p th:text="${answer.choice}"></p>
 				</span>
         </td>
     </tr>
 </table>
-
-<script>
-    var data = [];
-    var layout = {title: 'Survey Response Data'};
-    /* Here, we can add the appropriate code to populate the 'data' array with the correct data for each question in the survey */
-    Plotly.newPlot('plot', data, layout);
-</script>
 </body>
 </html>
