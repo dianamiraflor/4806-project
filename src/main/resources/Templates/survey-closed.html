@@ -11,16 +11,16 @@
 <h2>Survey Results</h2>
 
 <table>
-  <tr th:each="question : ${survey.questions}">
-    <td th:text="${question.text}"></td>
+  <tr th:each="questions : ${survey.questions}">
+    <td th:text="${questions.text}"></td>
     <td>
-				<span th:if="${question.Qtype == 'TQ'}">
+				<span th:if="${questions.Qtype == 'TQ'}">
 					<ul>
-						<li th:each="answer : ${question.answers}" th:text="${answer}"></li>
+						<li th:each="answer : ${questions.answers}" th:text="${answer}"></li>
 					</ul>
 				</span>
 
-      <span th:if="${question.type == 'RQ'}">
+      <span th:if="${questions.Qtype == 'RQ'}">
 					<!--
 					<div id="histogram"></div>
 					<script>
@@ -41,7 +41,7 @@
 				 					-->
 				</span>
 
-      <span th:if="${question.type == 'CHOICE'}">
+      <span th:if="${questions.Qtype == 'MCQ'}">
 		<!--
 		  <div id="piechart"></div>
 					<script>
