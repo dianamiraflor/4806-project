@@ -6,7 +6,7 @@
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-<h1>Fill Survey: <span th:text="${survey.name}"></span></h1>
+<h1>Fill Survey: <span th:text="${survey.surveyName}"></span></h1>
 
 <form th:action="@{/submit-survey}" th:object="${surveyResponse}" method="post">
 	<table>
