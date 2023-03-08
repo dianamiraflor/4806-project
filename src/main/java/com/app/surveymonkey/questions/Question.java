@@ -11,20 +11,13 @@ public class Question implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    private String question;
+    private String questionText;
 
-    public String getQType() {
-        return Qtype;
-    }
 
-    public void setQType(String Qtype) {
-        this.Qtype = Qtype;
-    }
-
-    protected String Qtype;
+    protected String QType;
 
     public Question() {
-        this.question = null;
+        this.questionText = null;
     }
 
     // ----------------- GETTERS & SETTERS -------------------
@@ -37,16 +30,24 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return this.question;
+    public String getQuestionText() {
+        return this.questionText;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setQuestionText(String question) {
+        this.questionText = question;
+    }
+
+    public String getQType() {
+        return QType;
+    }
+
+    public void setQType(String QType) {
+        this.QType = QType;
     }
 
     public String toString() {
-        String questionString = "Question: " + getQuestion() + " \n";
+        String questionString = "Question: " + getQuestionText() + " \n";
         return questionString;
     }
 }

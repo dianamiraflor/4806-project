@@ -23,7 +23,7 @@ public class RangeQuestion extends Question {
         this.min = 0;
         this.max = 0;
         this.answer = 0;
-        this.Qtype = "RQ";
+        this.QType = "RQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------
@@ -64,7 +64,7 @@ public class RangeQuestion extends Question {
 
     @Override
     public String toString() {
-        String questionString = "Question: " + super.getQuestion() + " \n";
+        String questionString = "Question: " + super.getQuestionText() + " \n";
         questionString = questionString + rangeList;
 
         return questionString;

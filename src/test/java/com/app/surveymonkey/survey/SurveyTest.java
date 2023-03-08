@@ -26,7 +26,7 @@ public class SurveyTest {
 
         mcq1 = new MultipleChoiceQuestion();
         mcq1.setId(1);
-        mcq1.setQuestion("Who did you purchase these products for?");
+        mcq1.setQuestionText("Who did you purchase these products for?");
         mcq1.setLimit(3);
         mcq1.addChoice("Self");
         mcq1.addChoice("Friend");
@@ -34,14 +34,14 @@ public class SurveyTest {
 
         rq1 = new RangeQuestion();
         rq1.setId(1);
-        rq1.setQuestion("How satisfied are you with the product?");
+        rq1.setQuestionText("How satisfied are you with the product?");
         rq1.setMin(1);
         rq1.setMax(3);
         rq1.createRangeList();
 
         tq1 = new TextQuestion();
         tq1.setId(1);
-        tq1.setQuestion("Please provide any additional comments or feedback");
+        tq1.setQuestionText("Please provide any additional comments or feedback");
 
         survey = new Survey();
         survey.setId(1);

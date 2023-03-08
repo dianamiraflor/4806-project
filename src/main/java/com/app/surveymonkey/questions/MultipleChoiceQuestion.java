@@ -14,13 +14,13 @@ public class MultipleChoiceQuestion extends Question {
 
     @ElementCollection
     private List<String> choices;
-    private int limit;
+    private int choices_limit;
     private String answer;
     public MultipleChoiceQuestion() {
-        this.limit = 0;
+        this.choices_limit = 0;
         this.answer = null;
         this.choices = new ArrayList<>();
-        this.Qtype = "MCQ";
+        this.QType = "MCQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------
@@ -35,11 +35,11 @@ public class MultipleChoiceQuestion extends Question {
     }
 
     public int getLimit(){
-        return this.limit;
+        return this.choices_limit;
     }
 
     public void setLimit(int limit) {
-        this.limit = limit;
+        this.choices_limit = limit;
     }
 
     public String getAnswer() {
@@ -52,7 +52,7 @@ public class MultipleChoiceQuestion extends Question {
 
     @Override
     public String toString() {
-        String questionString = "Question: " + super.getQuestion() + " \n";
+        String questionString = "Question: " + super.getQuestionText() + " \n";
 
         for (String choice : choices) {
             questionString = questionString + choice + "\n";

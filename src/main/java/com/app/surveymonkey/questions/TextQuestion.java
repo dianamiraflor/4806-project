@@ -9,7 +9,7 @@ public class TextQuestion extends Question {
 
     public TextQuestion() {
         this.answer = null;
-        this.Qtype="TQ";
+        this.QType="TQ";
     }
 
     // ----------------- GETTERS & SETTERS -------------------
@@ -24,7 +24,7 @@ public class TextQuestion extends Question {
 
     @Override
     public String toString(){
-        String questionString = "Question: " + super.getQuestion() + " \n";
+        String questionString = "Question: " + super.getQuestionText() + " \n";
         return questionString;
     }
 }
