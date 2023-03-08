@@ -39,19 +39,19 @@ public class SurveyController {
         Survey survey = surveyrepo.findById(surveyID);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
-        model.addAttribute("Question", new Question());
+        model.addAttribute("NewQuestion", new Question());
     return "survey-create";
     }
 
 
     @PostMapping("/surveys/{surveyID}")
-    public String newQuestion(@ModelAttribute Question question, @PathVariable("surveyID") int surveyID, Model model){
-        questionRepo.save(question);
+    public String newQuestion(@ModelAttribute Question Questions, @PathVariable("surveyID") int surveyID, Model model){
+        questionRepo.save(Questions);
         Survey survey = surveyrepo.findById(surveyID);
-        survey.addQuestion(question);
+        survey.addQuestion(Questions);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
-        model.addAttribute("Question", new Question());
+        model.addAttribute("NewQuestion", new Question());
         return "survey-create";
     }
 
@@ -71,7 +71,7 @@ public class SurveyController {
     public String saveSurvey(@ModelAttribute Survey survey) {
         survey.setOpen(true);
         surveyrepo.save(survey);
-    return "index";
+    return "survey-initialize";
     }
 
 }
