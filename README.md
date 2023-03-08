@@ -11,7 +11,6 @@ Milestone 2
 - Add surveyor login/singup features
 - Add feature where users can view surveys
 - Add feature of filling out surveys
-- 
 
 
 ## Current Schema of Database
