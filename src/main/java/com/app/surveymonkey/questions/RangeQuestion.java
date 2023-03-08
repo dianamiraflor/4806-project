@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue(value = "RQ")
+@PrimaryKeyJoinColumn(referencedColumnName="id")
 public class RangeQuestion extends Question {
 
     @ElementCollection

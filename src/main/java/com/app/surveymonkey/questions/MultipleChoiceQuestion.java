@@ -9,15 +9,15 @@ import java.util.HashSet;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue(value = "MCQ")
+@PrimaryKeyJoinColumn(referencedColumnName="id")
 public class MultipleChoiceQuestion extends Question {
 
     @ElementCollection
     private List<String> choices;
-    private int limit;
+    private int choices_limit;
     private String answer;
     public MultipleChoiceQuestion() {
-        this.limit = 0;
+        this.choices_limit = 0;
         this.answer = null;
         this.choices = new ArrayList<>();
     }
@@ -34,11 +34,11 @@ public class MultipleChoiceQuestion extends Question {
     }
 
     public int getLimit(){
-        return this.limit;
+        return this.choices_limit;
     }
 
     public void setLimit(int limit) {
-        this.limit = limit;
+        this.choices_limit = limit;
     }
 
     public String getAnswer() {

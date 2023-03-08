@@ -3,7 +3,7 @@ package com.app.surveymonkey.questions;
 import jakarta.persistence.*;
 
 @Entity
-@DiscriminatorValue(value = "TQ")
+@PrimaryKeyJoinColumn(referencedColumnName="id")
 public class TextQuestion extends Question {
     private String answer;
 

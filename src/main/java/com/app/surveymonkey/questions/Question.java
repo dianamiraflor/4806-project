@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type")
 public class Question implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String question;
 
     public Question() {
@@ -19,11 +19,11 @@ public class Question implements Serializable {
 
     // ----------------- GETTERS & SETTERS -------------------
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

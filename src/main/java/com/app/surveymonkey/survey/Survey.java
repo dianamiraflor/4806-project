@@ -16,7 +16,7 @@ public class Survey {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
     private String surveyName;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -26,7 +26,7 @@ public class Survey {
         this.questions = new HashSet();
     }
 
-    public Survey(long id) {
+    public Survey(int id) {
         this.questions = new HashSet();
         this.id = id;
     }
@@ -47,11 +47,11 @@ public class Survey {
     }
 
     // ----------------- GETTERS & SETTERS -------------------
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
