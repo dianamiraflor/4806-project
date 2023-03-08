@@ -8,8 +8,6 @@
 
 Milestone 2
 
-- Surveyor login
-- User filling out a survey without logging in
-- Enhance web pages
 
 ## Current Schema of Database
+![alt text](https://github.com/dianamiraflor/4806-project/blob/implenting-logic/db_schema.png)
