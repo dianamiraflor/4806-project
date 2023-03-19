@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>View Surveys</title>
+</head>
+<body>
+<h1>Available Surveys</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Survey Name</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="survey: ${surveys}">
+    <td>
+      <p th:text="${survey.surveyName}"></p>
+    </td>
+    <td>
+      <a th:href="@{'/surveys/view/' + ${survey.id}}">View Survey</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a href="/survey-create.html">Create New Survey</a>
+</body>
+</html>
