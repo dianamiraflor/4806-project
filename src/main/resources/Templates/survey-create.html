@@ -63,6 +63,9 @@
             font-family: 'Comfortaa', cursive;
             font-weight: 300;
         }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -99,10 +102,10 @@
                     </td>
                     <td>
                         <label for="type"></label>
-                        <select id="type" name="type" th:field="*{QType}">
+                        <select id="qType" name="type" th:field="*{QType}">
                             <option value="TQ">Open-Ended</option>
                             <option value="RQ">Range</option>
-                            <option value="MCQ">Choice</option>
+                            <option value="MCQ">Multiple Choice</option>
                         </select>
                     </td>
                     <td>
@@ -112,9 +115,69 @@
             </tr>
             </tbody>
         </table>
+        <th:block th:each="questions: ${survey.questions}">
+            <th:block th:if="${questions.QType == 'MCQ'}">
+                <h3 th:text="${questions.questionText}"></h3>
+                <form action="" method="post" th:object="${NewAnswer}" th:action="@{'/surveys/' + ${survey.id} + '/questions/' + ${questions.id}}">
+                    <ul>
+                        <li th:each="choice, choiceStat: ${questions.choices}">
+                            <input type="checkbox" th:name="*{answers}" th:value="${choice}" class="choice-checkbox hidden" />
+                            <label th:text="${choice}"></label>
+                        </li>
+                    </ul>
+                    <div class="add-choice-container">
+                        <p><input type="text" class="choice-input" th:field="*{choice}" /></p>
+                        <button type="button" class="add-choice-btn">Add Choice</button>
+                    </div>
+                </form>
+            </th:block>
+        </th:block>
         <button type="submit">Save Survey</button>
     </form>
+
 </div>
+<script>
+    const select = document.querySelector('#qType');
+    const addChoiceContainer = document.querySelector('.add-choice-container');
+    const addChoiceBtn = document.querySelector('.add-choice-btn');
+    const choiceInput = document.querySelector('.choice-input');
+
+    // Hide the add choice container and input field at the start
+    addChoiceContainer.classList.add('hidden');
+    choiceInput.classList.add('hidden');
+
+    select.addEventListener('change', () => {
+        if (select.value === 'MCQ') {
+            addChoiceContainer.classList.remove('hidden');
+            addChoiceBtn.style.display = 'inline-block';
+            choiceInput.classList.remove('hidden');
+        } else {
+            addChoiceContainer.classList.add('hidden');
+            addChoiceBtn.style.display = 'none';
+            choiceInput.classList.add('hidden');
+            choiceInput.value = '';
+        }
+    });
+
+    addChoiceBtn.addEventListener('click', () => {
+        const ul = document.querySelector('ul');
+        const li = document.createElement('li');
+        const choiceValue = choiceInput.value;
+        const input = document.createElement('input');
+        const label = document.createElement('label');
+        input.setAttribute('type', 'radio');
+        input.setAttribute('name', questions.id);
+        input.setAttribute('value', choiceValue);
+        label.textContent = choiceValue;
+        li.appendChild(input);
+        li.appendChild(label);
+        ul.appendChild(li);
+        choiceInput.value = '';
+    });
+</script>
+
+
+
+
 </body>
 </html>
-
