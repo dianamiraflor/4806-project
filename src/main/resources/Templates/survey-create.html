@@ -3,61 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Survey</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        a, button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover, button:hover {
+            background-color: #0056b3;
+        }
+
+        input, select {
+            padding: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${survey.surveyName}"></h1>
+<div class="container">
+    <h1 th:text="${survey.surveyName}"></h1>
 
-<form method="post"  th:action="@{/savesurvey}" th:object="${survey}">
-    <h2>Questions:</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Question Text</th>
-            <th>Question Type</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="questions: ${survey.questions}">
-            <td>
-                <p type="text"  th:text="${questions.questionText}" />
-            </td>
-            <td>
-                <p  type="text" th:text="${questions.QType}" />
-            </td>
-            <td>
-                <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <button type="submit">Save Survey</button>
-</form>
-
-<form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
-    <h2>Add a Question:</h2>
-    <p>Question Text: <input type="text" th:field="*{questionText}"/></p>
-    <br /><br />
-
-    <label for="type">Question Type:</label>
-    <select id="type" name="type" th:field="*{QType}">
-        <option value="TQ">Open-Ended</option>
-        <option value="RQ">Range</option>
-        <option value="MCQ">Choice</option>
-    </select>
-    <br /><br />
-
-
-   <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
-        <p>Please correct the errors below:</p>
-        <ul>
-            <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
-            <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
-        </ul>
-    </div>-->
-
-    <button type="submit">Add Question</button>
-</form>
+    <form method="post" th:action="@{/savesurvey}" th:object="${survey}">
+        <h2>Questions:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Question Text</th>
+                <th>Question Type</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="questions: ${survey.questions}">
+                <td>
+                    <p type="text" th:text="${questions.questionText}" />
+                </td>
+                <td>
+                    <p type="text" th:text="${questions.QType}" />
+                </td>
+                <td>
+                    <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
+                    <td>
+                        <p><input type="text" th:field="*{questionText}"/></p>
+                    </td>
+                    <td>
+                        <label for="type"></label>
+                        <select id="type" name="type" th:field="*{QType}">
+                            <option value="TQ">Open-Ended</option>
+                            <option value="RQ">Range</option>
+                            <option value="MCQ">Choice</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit">Add Question</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit">Save Survey</button>
+    </form>
+</div>
 </body>
 </html>
+
