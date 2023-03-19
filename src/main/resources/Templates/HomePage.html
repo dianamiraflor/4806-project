@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Home Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    a.button {
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    a.button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Welcome to the Survey Application</h1>
+  <a class="button" th:href="@{/login}">Login</a>
+  <br>
+  <a class="button" th:href="@{/signup}">Sign Up</a>
+  <br>
+  <a class="button" th:href="@{/surveys}">Available Surveys</a>
+</div>
+</body>
+</html>
