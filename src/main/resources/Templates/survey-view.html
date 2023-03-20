@@ -15,16 +15,16 @@
     </tr>
 
     <tr th:each="questions : ${survey.questions}">
-        <td th:text="${questions.questionText}"></td>
-        <td th:text="${questions.QType}"></td>
+        <td th:text="${questions.text}"></td>
+        <td th:text="${questions.type}"></td>
         <td>
-				<span th:if="${questions.QType == 'MCQ'}">
+				<span th:if="${questions.Qtype == 'MCQ'}">
 					<select>
-						<option th:each="option : ${questions.choices}" th:text="${option}"></option>
+						<option th:each="option : ${questions.options}" th:text="${option}"></option>
 					</select>
 				</span>
 
-            <span th:if="${questions.QType == 'RQ'}">
+            <span th:if="${questions.Qtype == 'RQ'}">
 					<span th:text="'Min: ' + ${questions.min}"></span>
 					<span th:text="'Max: ' + ${questions.max}"></span>
 				</span>

@@ -6,21 +6,22 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-<h1>Survey Closed: <span th:text="${survey.name}"></span></h1>
+<h1>Survey Closed: <span th:text="${survey.surveyName}"></span></h1>
 
 <h2>Survey Results</h2>
 
 <table>
-  <tr th:each="question : ${survey.questions}">
-    <td th:text="${question.text}"></td>
+  <tr th:each="questions : ${survey.questions}">
+    <td th:text="${questions.text}"></td>
     <td>
-				<span th:if="${question.type == 'OPEN_ENDED'}">
+				<span th:if="${questions.Qtype == 'TQ'}">
 					<ul>
-						<li th:each="answer : ${question.answers}" th:text="${answer}"></li>
+						<li th:each="answer : ${questions.answers}" th:text="${answer}"></li>
 					</ul>
 				</span>
 
-      <span th:if="${question.type == 'RANGE'}">
+      <span th:if="${questions.Qtype == 'RQ'}">
+					<!--
 					<div id="histogram"></div>
 					<script>
 						var data = [
@@ -36,10 +37,13 @@
                         };
                         Plotly.newPlot('histogram', data, layout);
 					</script>
+
+				 					-->
 				</span>
 
-      <span th:if="${question.type == 'CHOICE'}">
-					<div id="piechart"></div>
+      <span th:if="${questions.Qtype == 'MCQ'}">
+		<!--
+		  <div id="piechart"></div>
 					<script>
 						var data = [{
                           values: [/* here we can populate the pie chart data with the choice options */],
@@ -51,6 +55,7 @@
                         };
                         Plotly.newPlot('piechart', data, layout);
 					</script>
+								-->
 				</span>
     </td>
   </tr>

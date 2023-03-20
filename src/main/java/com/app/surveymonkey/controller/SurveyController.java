@@ -12,13 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
+
 @Controller
 public class SurveyController {
 
     @Autowired SurveyRepo surveyrepo;
     @Autowired QuestionRepo questionRepo;
-
-
 
     @GetMapping("/newSurvey")
     public String newSurvey(Model model){
@@ -32,15 +32,13 @@ public class SurveyController {
         return ("redirect:/surveys/"+id);
     }
 
-
-
     @GetMapping("/surveys/{surveyID}")
     public String addQuestion(@PathVariable("surveyID") int surveyID, Model model){
         Survey survey = surveyrepo.findById(surveyID);
         model.addAttribute("survey",survey);
         model.addAttribute("id",surveyID);
         model.addAttribute("NewQuestion", new Question());
-    return "survey-create";
+        return "survey-create";
     }
 
 

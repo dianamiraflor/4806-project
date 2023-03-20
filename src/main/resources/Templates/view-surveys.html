@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create Survey</title>
+  <title>View Surveys</title>
   <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
   <style>
     body {
@@ -13,7 +13,14 @@
       padding: 0;
     }
 
-    h1, h2 {
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
       font-size: 32px;
       color: #333;
       margin-bottom: 30px;
@@ -31,41 +38,47 @@
       border-bottom: 1px solid #ddd;
     }
 
-    a, button {
+    a.button, a {
       background-color: #007BFF;
       border: none;
       color: white;
       padding: 10px 20px;
       text-align: center;
-      text-decoration: none;
       display: inline-block;
       font-size: 16px;
       margin: 10px 2px;
       cursor: pointer;
       border-radius: 4px;
       transition: background-color 0.3s;
-      font-family: 'Comfortaa', cursive;
-      font-weight: 300;
     }
 
-    a:hover, button:hover {
+    a.button:hover, a:hover {
       background-color: #0056b3;
-    }
-
-    input, select {
-      font-family: 'Comfortaa', cursive;
-      font-weight: 300;
     }
   </style>
 </head>
 <body>
-<h1>Create Survey</h1>
-<form method="post"  th:action="@{/newSurvey}" th:object="${survey}">
-  <label for="name">Survey Name:</label>
-  <input type="text" id="name" name="name" th:field="*{surveyName}" />
-  <button type="submit">Create</button>
-  <br>
-  <a class="button" href = "/surveyorHome"> Back to Homepage</a>
-</form>
+<div class="container">
+  <h1>Available Surveys</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Survey Name</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="survey: ${surveys}">
+      <td>
+        <p th:text="${survey.surveyName}"></p>
+      </td>
+      <td>
+        <a th:href="@{'/surveys/view/' + ${survey.id}}">View Survey </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a class="button" href="/survey-create.html">Create New Survey </a>
+</div>
 </body>
 </html>

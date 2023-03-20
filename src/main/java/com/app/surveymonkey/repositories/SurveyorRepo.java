@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface SurveyorRepo extends CrudRepository <Surveyor, Integer>{
 
     Surveyor findByUsername(String username);
+    Surveyor findById(int id);
 
 }
