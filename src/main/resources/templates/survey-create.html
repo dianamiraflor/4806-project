@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Create Survey</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -41,6 +42,10 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
+        .delete-question {
+            position: relative;
+            margin-top: 5px ;
+        }
 
         a.button:hover {
             background-color: #0056b3;
@@ -57,7 +62,7 @@
         </div>
         <div id="questions"></div>
         <button id="add-question" type="button" class="btn btn-primary">Add Question</button>
-        <button id="create-survey" type="submit" class="btn btn-success" disabled>Create Survey</button>
+        <button id="create-survey" type="submit" class="btn btn-primary" disabled>Create Survey</button>
     </form>
 </div>
 <script>
@@ -70,7 +75,6 @@
             </div>`;
         $(`#question-${questionIndex} .choices`).append(choiceHtml);
     }
-
     function updateQuestion(questionIndex) {
         const questionType = $(`#question-${questionIndex} select`).val();
         if (questionType === 'CHOICE') {
@@ -79,26 +83,32 @@
                 addChoiceInput(questionIndex);
                 $(`#question-${questionIndex}`).append('<button type="button" class="btn btn-secondary add-choice">Add Choice</button>');
             }
-        } else {
-            $(`#question-${questionIndex} .choices`).remove();
-            $(`#question-${questionIndex} .add-choice`).remove();
-        }
-
-        if (questionType === 'RANGE') {
+            // Remove range inputs when question type changes
+            $(`#question-${questionIndex} .range-container`).remove();
+        } else if (questionType === 'RANGE') {
             if (!$(`#question-${questionIndex} .range-container`).length) {
                 const rangeHtml = `
                 <div class="form-group range-container">
-                    <label for="range-min">Minimum Value:</label>
-                    <input type="number" id="range-min" name="questions[${questionIndex}].rangeMin" class="form-control" />
-                    <label for="range-max">Maximum Value:</label>
-                    <input type="number" id="range-max" name="questions[${questionIndex}].rangeMax" class="form-control" />
+                    <label for="range-min">Min:</label>
+                    <input type="number" id="range-min" name="questions[${questionIndex}].rangeMin" class="form-control"/>
+                    <label for="range-max">Max:</label>
+                    <input type="number" id="range-max" name="questions[${questionIndex}].rangeMax" class="form-control"/>
                 </div>`;
                 $(`#question-${questionIndex}`).append(rangeHtml);
             }
+            // Remove choice inputs when question type changes
+            $(`#question-${questionIndex} .choices`).remove();
+            $(`#question-${questionIndex} .add-choice`).remove();
         } else {
+            // Remove choice inputs and range inputs when question type changes
+            $(`#question-${questionIndex} .choices`).remove();
+            $(`#question-${questionIndex} .add-choice`).remove();
             $(`#question-${questionIndex} .range-container`).remove();
         }
     }
+
+
+
 
     function updateCreateSurveyButton() {
         const title = $('#surveyName').val().trim();
@@ -111,8 +121,6 @@
             const choices = $(this).find('.choice #choice-text').filter(function() {
                 return this.value.trim() !== '';
             });
-            const rangeMin = $(this).find('.range-container #range-min').val().trim();
-            const rangeMax = $(this).find('.range-container #range-max').val().trim();
 
             if (questionText.length > 0) {
                 if (questionType === 'CHOICE') {
@@ -120,6 +128,9 @@
                         validQuestions++;
                     }
                 } else if (questionType === 'RANGE') {
+                    const rangeMin = $(this).find('.range-container #range-min').val().trim();
+                    const rangeMax = $(this).find('.range-container #range-max').val().trim();
+
                     if (rangeMin.length > 0 && rangeMax.length > 0 && parseInt(rangeMin) <= parseInt(rangeMax)) {
                         validQuestions++;
                     }
@@ -153,7 +164,10 @@
                         <option value="RANGE">RANGE</option>
                         <option value="CHOICE">CHOICE</option>
                     </select>
+                <button type="button" class="btn btn-danger delete-question">Delete Question</button>
+
                 </div>
+
             </div>`;
             $('#questions').append(questionHtml);
             updateCreateSurveyButton();
@@ -164,13 +178,20 @@
             addChoiceInput(questionIndex);
         });
 
+        $(document).on('click', '.delete-question', function() {
+            $(this).closest('.question').remove();
+            updateCreateSurveyButton();
+        });
+
+
         // Update the Create Survey button when the title or question text changes
         $(document).on('input', '#title', updateCreateSurveyButton);
         $(document).on('input', '#question-text', updateCreateSurveyButton);
         $(document).on('input', '.choice #choice-text', updateCreateSurveyButton);
+        $(document).on('change', '#question-type', updateCreateSurveyButton);
         $(document).on('input', '.range-container #range-min', updateCreateSurveyButton);
         $(document).on('input', '.range-container #range-max', updateCreateSurveyButton);
-        $(document).on('change', '#question-type', updateCreateSurveyButton);
+
     });
 </script>
 </body>
