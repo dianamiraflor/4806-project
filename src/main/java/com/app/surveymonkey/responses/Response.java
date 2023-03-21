@@ -20,6 +20,9 @@ public class Response {
     @NotNull
     protected Question question;
 
+
+    private String answer;
+
     public Response() {
     }
 
@@ -45,6 +48,14 @@ public class Response {
 
     public String getQType() {
         return this.QType;
+    }
+
+    public String getAnswer() {
+        return this.answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public String toString() {

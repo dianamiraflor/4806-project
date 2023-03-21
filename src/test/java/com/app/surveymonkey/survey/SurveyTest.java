@@ -6,9 +6,7 @@ package com.app.surveymonkey.survey;
 import com.app.surveymonkey.questions.MultipleChoiceQuestion;
 import com.app.surveymonkey.questions.RangeQuestion;
 import com.app.surveymonkey.questions.TextQuestion;
-import com.app.surveymonkey.responses.MultipleChoiceResponse;
-import com.app.surveymonkey.responses.RangeResponse;
-import com.app.surveymonkey.responses.TextResponse;
+import com.app.surveymonkey.responses.Response;
 import com.app.surveymonkey.surveyor.Surveyor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,9 +20,9 @@ public class SurveyTest {
     private RangeQuestion rq1;
     private TextQuestion tq1;
 
-    private MultipleChoiceResponse mcr;
-    private TextResponse tr;
-    private RangeResponse rr;
+    private Response mcr;
+    private Response tr;
+    private Response rr;
 
     @BeforeEach
     void setUp() {
@@ -66,13 +64,13 @@ public class SurveyTest {
         surveyor.addSurvey(survey);
 
         // RESPONSES
-        mcr = new MultipleChoiceResponse();
+        mcr = new Response();
         mcr.setAnswer("Self");
 
-        rr = new RangeResponse();
-        rr.setAnswer(2);
+        rr = new Response();
+        rr.setAnswer(String.valueOf(2));
 
-        tr = new TextResponse();
+        tr = new Response();
         tr.setAnswer("None");
     }
 
@@ -104,7 +102,7 @@ public class SurveyTest {
 
     @Test
     public void testRQ() {
-        Integer testAnswer = 2;
+        String testAnswer = "2";
         rr.setQuestion(rq1);
 
         assertEquals(testAnswer, rr.getAnswer());
