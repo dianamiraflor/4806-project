@@ -83,7 +83,23 @@
             $(`#question-${questionIndex} .choices`).remove();
             $(`#question-${questionIndex} .add-choice`).remove();
         }
+
+        if (questionType === 'RANGE') {
+            if (!$(`#question-${questionIndex} .range-container`).length) {
+                const rangeHtml = `
+                <div class="form-group range-container">
+                    <label for="range-min">Minimum Value:</label>
+                    <input type="number" id="range-min" name="questions[${questionIndex}].rangeMin" class="form-control" />
+                    <label for="range-max">Maximum Value:</label>
+                    <input type="number" id="range-max" name="questions[${questionIndex}].rangeMax" class="form-control" />
+                </div>`;
+                $(`#question-${questionIndex}`).append(rangeHtml);
+            }
+        } else {
+            $(`#question-${questionIndex} .range-container`).remove();
+        }
     }
+
     function updateCreateSurveyButton() {
         const title = $('#surveyName').val().trim();
         const questions = $('#questions .question');
@@ -95,10 +111,16 @@
             const choices = $(this).find('.choice #choice-text').filter(function() {
                 return this.value.trim() !== '';
             });
+            const rangeMin = $(this).find('.range-container #range-min').val().trim();
+            const rangeMax = $(this).find('.range-container #range-max').val().trim();
 
             if (questionText.length > 0) {
                 if (questionType === 'CHOICE') {
                     if (choices.length >= 2) {
+                        validQuestions++;
+                    }
+                } else if (questionType === 'RANGE') {
+                    if (rangeMin.length > 0 && rangeMax.length > 0 && parseInt(rangeMin) <= parseInt(rangeMax)) {
                         validQuestions++;
                     }
                 } else {
@@ -128,7 +150,7 @@
                         <label for="question-type">Type:</label>
                     <select id="question-type" name="questions[${questionIndex}].type" class="form-control" onchange="updateQuestion(${questionIndex})">
                         <option value="TEXT">TEXT</option>
-                        <option value="NUMBER">NUMBER</option>
+                        <option value="RANGE">RANGE</option>
                         <option value="CHOICE">CHOICE</option>
                     </select>
                 </div>
@@ -146,6 +168,8 @@
         $(document).on('input', '#title', updateCreateSurveyButton);
         $(document).on('input', '#question-text', updateCreateSurveyButton);
         $(document).on('input', '.choice #choice-text', updateCreateSurveyButton);
+        $(document).on('input', '.range-container #range-min', updateCreateSurveyButton);
+        $(document).on('input', '.range-container #range-max', updateCreateSurveyButton);
         $(document).on('change', '#question-type', updateCreateSurveyButton);
     });
 </script>
