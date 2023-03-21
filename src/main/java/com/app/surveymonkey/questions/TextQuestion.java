@@ -1,10 +1,13 @@
 package com.app.surveymonkey.questions;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName="id")
 public class TextQuestion extends Question {
+
+    @NotNull(message = "TQ needs an answer")
     private String answer;
 
     public TextQuestion() {
