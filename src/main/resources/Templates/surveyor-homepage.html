@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-    <meta charset="UTF-8">
-    <title>Surveyor Homepage</title>
+    <title>Home Page</title>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
     <style>
         body {
@@ -24,9 +23,6 @@
             font-size: 32px;
             color: #333;
             margin-bottom: 30px;
-            text-align: center;
-
-
         }
 
         a.button {
@@ -47,17 +43,35 @@
         a.button:hover {
             background-color: #0056b3;
         }
+
+        #log-out {
+            color: #007BFF;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            position:absolute;
+            top:0;
+            right:0;
+        }
+
     </style>
 </head>
-
 <body>
-<h1>Welcome to your Surveyor homepage!</h1>
+<div id="log-out">
+    <a th:href="@{/home}">Log Out</a>
+</div>
 <div class="container">
-    <a class="button" href="/newSurvey">Create New Survey</a>
+    <h1>Welcome to the Survey Application</h1>
+    <a class="button" th:href="@{/login}">Login</a>
     <br>
-    <a class="button" href="/viewCreatedSurveys">View Created Surveys</a>
+    <a class="button" th:href="@{/signup}">Sign Up</a>
     <br>
-    <a class="button" href="/accountInfo">Account Information</a>
+    <a class="button" th:href="@{/availableSurveys}">Available Surveys</a>
 </div>
 </body>
 </html>
