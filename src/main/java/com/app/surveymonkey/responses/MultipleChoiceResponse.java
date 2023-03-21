@@ -6,15 +6,15 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(referencedColumnName="id")
-public class MCResponse extends Response{
+public class MultipleChoiceResponse extends Response{
 
     private String answer;
 
-    public MCResponse() {
+    public MultipleChoiceResponse() {
         this.QType = "MCQ";
     }
 
-    public MCResponse(String answer, Question question) {
+    public MultipleChoiceResponse(String answer, Question question) {
         this.answer = answer;
         this.question = question;
         this.QType = "MCQ";
