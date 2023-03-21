@@ -66,11 +66,12 @@
 </head>
 
 <body>
-<h1>Welcome to your Surveyor homepage!</h1>
+<h1>Welcome <span th:text="${surveyor.name}"></span> to your homepage</h1>
 <div id="log-out">
     <a th:href="@{/home}">Log Out</a>
 </div>
 <div class="container">
+    <p th:text="'Name: ' + ${surveyor.name}"/>
     <a class="button" href="/newSurvey">Create New Survey</a>
     <br>
     <a class="button" href="/viewCreatedSurveys">View Created Surveys</a>

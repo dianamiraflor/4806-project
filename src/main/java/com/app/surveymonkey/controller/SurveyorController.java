@@ -3,6 +3,9 @@ package com.app.surveymonkey.controller;
 import com.app.surveymonkey.repositories.SurveyorRepo;
 import com.app.surveymonkey.survey.Survey;
 import com.app.surveymonkey.surveyor.Surveyor;
+import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,8 @@ public class SurveyorController {
 
     @Autowired private SurveyorRepo surveyorRepo;
 
+    Logger logger = LoggerFactory.getLogger(SurveyorController.class);
+
     @GetMapping("/login")
     public String loadLogin(Model model) {
         model.addAttribute("surveyor", new Surveyor());
@@ -21,12 +26,18 @@ public class SurveyorController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute String username, @ModelAttribute String password){
+    public String login(@ModelAttribute("username") @NotNull String username, @ModelAttribute("password") @NotNull String password,
+                        @ModelAttribute Surveyor surveyor, Model model){
+        if (username == null | password == null) {
+            return "badlogin";
+        }
+
        Surveyor tempSurveyor = surveyorRepo.findByUsername(username);
-       if(tempSurveyor.getPassword()!=password){
-           return "badlogin";
-       }else {
-           return ("redirect:/surveyorHome");
+       if(tempSurveyor.getPassword().equals(password)){
+           model.addAttribute("surveyor", tempSurveyor);
+           return "surveyor-homepage";
+       } else {
+          return "badlogin";
        }
     }
 
@@ -37,14 +48,15 @@ public class SurveyorController {
     }
 
     @PostMapping(path = "/signup")
-    public String createSurveyor(@ModelAttribute Surveyor surveyor){
+    public String createSurveyor(@ModelAttribute Surveyor surveyor, Model model){
         surveyorRepo.save(surveyor);
-        return ("redirect:/surveyorHome");
-
+        model.addAttribute("surveyor", surveyor);
+        return "surveyor-homepage";
     }
 
     @GetMapping("/surveyorHome")
-    public String surveyorHome(){
+    public String surveyorHome(@ModelAttribute Surveyor surveyor, Model model){
+        model.addAttribute("surveyor", surveyor);
         return "surveyor-homepage";
     }
 
