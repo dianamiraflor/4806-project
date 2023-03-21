@@ -2,6 +2,8 @@ package com.app.surveymonkey.questions;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import com.app.surveymonkey.survey.Survey;
+
 import java.io.Serializable;
 
 @Entity
@@ -17,6 +19,10 @@ public class Question implements Serializable {
     private String questionText;
 
     protected String QType;
+
+    @ManyToOne(cascade =  CascadeType.ALL)
+    private Survey survey;
+
 
     public Question() {
         this.questionText = null;
@@ -46,6 +52,14 @@ public class Question implements Serializable {
 
     public void setQType(String QType) {
         this.QType = QType;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
+
+    public Survey getSurvey() {
+        return this.survey;
     }
 
     public String toString() {
