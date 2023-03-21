@@ -4,9 +4,7 @@ import com.app.surveymonkey.questions.Question;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 @Entity
 public class Survey {
@@ -14,6 +12,7 @@ public class Survey {
     @Id
     @GeneratedValue
     private int id;
+
 
     public Boolean getOpen() {
         return open;
@@ -43,10 +42,11 @@ public class Survey {
         this.open=false;
     }
 
-    public void addQuestion(Question question) {
-        if (question != null) {
-            questions.add(question);
+    public void addQuestions(Collection<Question> questions) {
+        if (this.questions == null) {
+            this.questions = new ArrayList<>();
         }
+        this.questions.addAll(questions);
     }
 
     public void removeQuestion(Question question) {
