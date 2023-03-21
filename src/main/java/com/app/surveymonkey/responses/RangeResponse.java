@@ -20,17 +20,17 @@ public class RangeResponse extends Response {
     }
 
     public int getAnswer() {
-        return answer;
+        return this.answer;
     }
 
-    public boolean setAnswer(int answer) {
-        RangeQuestion r = (RangeQuestion) question;
-        if(answer < r.getMin() || answer > r.getMax() ) {
-            return false;
-        }else {
-            this.answer = answer;
-            return true;
-        }
+    public void setAnswer(int answer) {
+        this.answer =  answer;
+    }
 
+    @Override
+    public String toString() {
+        String response = QType + ": " + question.toString() + "\n";
+        response = response + "Answer: " + answer;
+        return response;
     }
 }

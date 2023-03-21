@@ -16,19 +16,15 @@ public class RangeQuestion extends Question {
     @ElementCollection
     private List<Integer> rangeList;
 
-    @NotNull(message = "RQ needs an answer")
-    private int answer;
-
     @Min(1)
     private int min;
-
+    @Min(2)
     private int max;
 
     public RangeQuestion() {
         this.rangeList = new ArrayList<>();
-        this.min = 0;
-        this.max = 0;
-        this.answer = 0;
+        this.min = 1;
+        this.max = 2;
         this.QType = "RQ";
     }
 
@@ -59,15 +55,6 @@ public class RangeQuestion extends Question {
             }
         }
     }
-
-    public int getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(int answer) {
-        this.answer = answer;
-    }
-
     @Override
     public String toString() {
         String questionString = "Question: " + super.getQuestionText() + " \n";

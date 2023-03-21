@@ -46,4 +46,9 @@ public class Response {
     public String getQType() {
         return this.QType;
     }
+
+    public String toString() {
+        String response = QType + ": " + question.toString() + "\n";
+        return response;
+    }
 }

@@ -27,4 +27,11 @@ public class MultipleChoiceResponse extends Response{
     public String getAnswer() {
         return this.answer;
     }
+
+    @Override
+    public String toString() {
+        String response = QType + ": " + question.toString() + "\n";
+        response = response + "Answer: " + answer;
+        return response;
+    }
 }

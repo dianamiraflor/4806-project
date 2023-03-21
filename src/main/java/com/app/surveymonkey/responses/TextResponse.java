@@ -26,4 +26,11 @@ public class TextResponse extends Response {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        String response = QType + ": " + question.toString() + "\n";
+        response = response + "Answer: " + answer;
+        return response;
+    }
 }

@@ -1,8 +1,14 @@
+/**
+ * Used to test creating surveys
+ */
 package com.app.surveymonkey.survey;
 
 import com.app.surveymonkey.questions.MultipleChoiceQuestion;
 import com.app.surveymonkey.questions.RangeQuestion;
 import com.app.surveymonkey.questions.TextQuestion;
+import com.app.surveymonkey.responses.MultipleChoiceResponse;
+import com.app.surveymonkey.responses.RangeResponse;
+import com.app.surveymonkey.responses.TextResponse;
 import com.app.surveymonkey.surveyor.Surveyor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +22,10 @@ public class SurveyTest {
     private RangeQuestion rq1;
     private TextQuestion tq1;
 
+    private MultipleChoiceResponse mcr;
+    private TextResponse tr;
+    private RangeResponse rr;
+
     @BeforeEach
     void setUp() {
         surveyor = new Surveyor();
@@ -27,6 +37,7 @@ public class SurveyTest {
         mcq1 = new MultipleChoiceQuestion();
         mcq1.setId(1);
         mcq1.setQuestionText("Who did you purchase these products for?");
+        mcq1.setQType("MCQ");
         mcq1.setLimit(3);
         mcq1.addChoice("Self");
         mcq1.addChoice("Friend");
@@ -35,12 +46,14 @@ public class SurveyTest {
         rq1 = new RangeQuestion();
         rq1.setId(1);
         rq1.setQuestionText("How satisfied are you with the product?");
+        rq1.setQType("RQ");
         rq1.setMin(1);
         rq1.setMax(3);
         rq1.createRangeList();
 
         tq1 = new TextQuestion();
         tq1.setId(1);
+        tq1.setQType("TQ");
         tq1.setQuestionText("Please provide any additional comments or feedback");
 
         survey = new Survey();
@@ -51,6 +64,16 @@ public class SurveyTest {
         survey.addQuestion(tq1);
 
         surveyor.addSurvey(survey);
+
+        // RESPONSES
+        mcr = new MultipleChoiceResponse();
+        mcr.setAnswer("Self");
+
+        rr = new RangeResponse();
+        rr.setAnswer(2);
+
+        tr = new TextResponse();
+        tr.setAnswer("None");
     }
 
     @Test
@@ -71,25 +94,34 @@ public class SurveyTest {
     @Test
     public void testMCQ() {
         String testAnswer = "Self";
-        mcq1.setAnswer(testAnswer);
 
-        assertEquals(testAnswer, mcq1.getAnswer());
+        mcr.setQuestion(mcq1);
+        assertEquals(testAnswer, mcr.getAnswer());
+        assertEquals(mcq1, mcr.getQuestion());
+
+        System.out.println(mcr);
     }
 
     @Test
     public void testRQ() {
         Integer testAnswer = 2;
-        rq1.setAnswer(testAnswer);
+        rr.setQuestion(rq1);
 
-        assertEquals(testAnswer, rq1.getAnswer());
+        assertEquals(testAnswer, rr.getAnswer());
+        assertEquals(rq1, rr.getQuestion());
+
+        System.out.println(rr);
     }
 
     @Test
     public void testTQ() {
-        String testAnswer = "No additional comments.";
-        tq1.setAnswer(testAnswer);
+        String testAnswer = "None";
+        tr.setQuestion(tq1);
 
-        assertEquals(testAnswer, tq1.getAnswer());
+        assertEquals(testAnswer, tr.getAnswer());
+        assertEquals(tq1, tr.getQuestion());
+
+        System.out.println(tr);
     }
 
     @Test

@@ -20,10 +20,7 @@ public class MultipleChoiceQuestion extends Question {
     @Min(2)
     private int choices_limit;
 
-    @NotNull(message = "MCQ needs an answer")
-    private String answer;
     public MultipleChoiceQuestion() {
-        this.answer = null;
         this.choices = new ArrayList<>();
         this.QType = "MCQ";
     }
@@ -45,14 +42,6 @@ public class MultipleChoiceQuestion extends Question {
 
     public void setLimit(int limit) {
         this.choices_limit = limit;
-    }
-
-    public String getAnswer() {
-        return this.answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     @Override
