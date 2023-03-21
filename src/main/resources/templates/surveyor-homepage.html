@@ -71,12 +71,11 @@
     <a th:href="@{/home}">Log Out</a>
 </div>
 <div class="container">
-    <p th:text="'Name: ' + ${surveyor.name}"/>
     <a class="button" href="/newSurvey">Create New Survey</a>
     <br>
-    <a class="button" href="/viewCreatedSurveys">View Created Surveys</a>
+    <a class="button" th:href="@{'/viewCreatedSurveys'}">View Created Surveys</a>
     <br>
-    <a class="button" href="/accountInfo">Account Information</a>
+    <a class="button" th:href="@{'/accountInfo/' + ${surveyor.id}}">Account Information</a>
     <br>
     <a class="button" href="/closeSurvey">Close a Survey</a>
 </div>

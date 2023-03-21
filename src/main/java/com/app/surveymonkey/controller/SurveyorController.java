@@ -76,10 +76,11 @@ public class SurveyorController {
         return "view-created-surveys"; // Return Surveyor version of view-surveys.html but with options to close + open surveys.
     }
 
-    @GetMapping("/accountInfo")
-    public String viewAccountInfo(Model model, int id) {
-        Surveyor surveyor = surveyorRepo.findById(id);
+    @GetMapping("/accountInfo/{surveyorID}")
+    public String viewAccountInfo(@PathVariable("surveyorID") String surveyorID, Model model) {
+        int surveyor_id = Integer.parseInt(surveyorID);
 
+        Surveyor surveyor = surveyorRepo.findById(surveyor_id);
         model.addAttribute("surveyor", surveyor);
         return "surveyor-account-info";
     }
