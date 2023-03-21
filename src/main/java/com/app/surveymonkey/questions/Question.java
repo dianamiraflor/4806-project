@@ -9,6 +9,17 @@ import java.util.List;
 @Entity
 public class Question {
 
+    public Question(String text, QuestionType type) {
+    }
+
+    public Question() {
+
+    }
+
+    public void addChoice(String choiceText) {
+        choices.add(choiceText);
+    }
+
     public enum QuestionType {
         TEXT, RANGE, CHOICE
     }
