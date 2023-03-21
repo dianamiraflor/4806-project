@@ -16,7 +16,6 @@ public class Question implements Serializable {
     @NotNull(message = "Question text cannot be null")
     private String questionText;
 
-
     protected String QType;
 
     public Question() {

@@ -14,15 +14,21 @@ public class SurveyorController {
 
     @Autowired private SurveyorRepo surveyorRepo;
 
-   @PostMapping("/login")
-   public String login(@ModelAttribute String username, @ModelAttribute String password){
+    @GetMapping("/login")
+    public String loadLogin(Model model) {
+        model.addAttribute("surveyor", new Surveyor());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute String username, @ModelAttribute String password){
        Surveyor tempSurveyor = surveyorRepo.findByUsername(username);
        if(tempSurveyor.getPassword()!=password){
            return "badlogin";
        }else {
-           return "survey-homepage";
+           return ("redirect:/surveyorHome");
        }
-   }
+    }
 
     @GetMapping("/signup")
     public String signup(Model model){
