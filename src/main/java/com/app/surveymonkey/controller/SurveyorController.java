@@ -55,7 +55,7 @@ public class SurveyorController {
         Iterable<Survey> createdSurveys = surveyor.getSurveyList(); // Might be incompatible types with HTML?
 
         model.addAttribute("surveys", createdSurveys);
-        return "view-surveys"; // Return same HTML template for available surveys
+        return "view-created-surveys"; // Return Surveyor version of view-surveys.html but with options to close + open surveys.
     }
 
     @GetMapping("/accountInfo")

@@ -64,6 +64,7 @@
         <thead>
         <tr>
             <th>Survey Name</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -73,7 +74,12 @@
                 <p th:text="${survey.surveyName}"></p>
             </td>
             <td>
+                <p th:text="${survey.open}"></p>
+            </td>
+            <td>
                 <a th:href="@{'/surveys/view/' + ${survey.id}}">View Survey </a>
+                <br>
+                <a th:href="@{'/surveys/view/' + ${survey.id}}">Close Survey </a>
             </td>
         </tr>
         </tbody>
