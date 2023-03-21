@@ -1,7 +1,11 @@
 package com.app.surveymonkey.responses;
 
 import com.app.surveymonkey.questions.Question;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="id")
 public class MCResponse extends Response{
 
     private String answer;

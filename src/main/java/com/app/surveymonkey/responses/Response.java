@@ -2,17 +2,22 @@ package com.app.surveymonkey.responses;
 
 import com.app.surveymonkey.questions.Question;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table
 public class Response {
 
     @Id
     @GeneratedValue
     private int id;
 
+    @NotNull
     protected String QType;
 
     @ManyToOne(cascade =  CascadeType.ALL)
+    @NotNull
     protected Question question;
 
     public Response() {
