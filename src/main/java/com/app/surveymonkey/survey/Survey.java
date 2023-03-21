@@ -1,12 +1,7 @@
 package com.app.surveymonkey.survey;
 
-import com.app.surveymonkey.questions.MultipleChoiceQuestion;
 import com.app.surveymonkey.questions.Question;
-import com.app.surveymonkey.questions.RangeQuestion;
-import com.app.surveymonkey.questions.TextQuestion;
-import com.app.surveymonkey.surveyor.Surveyor;
 import jakarta.persistence.*;
-import jakarta.validation.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
