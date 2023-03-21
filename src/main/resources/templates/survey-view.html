@@ -5,31 +5,26 @@
     <title>View Survey</title>
 </head>
 <body>
-<h1>View Survey: <span th:text="${survey.surveyName}"></span></h1>
+<h1>View Survey: <span th:text="${survey.id} + ${survey.surveyName}"></span></h1>
 
 <table>
+    <thead>
     <tr>
         <th>Question</th>
         <th>Type</th>
         <th>Options</th>
     </tr>
-
-    <tr th:each="questions : ${survey.questions}">
-        <td th:text="${questions.text}"></td>
-        <td th:text="${questions.type}"></td>
+    </thead>
+    <tbody>
+    <tr th:each="question: ${questions}">
         <td>
-				<span th:if="${questions.Qtype == 'MCQ'}">
-					<select>
-						<option th:each="option : ${questions.options}" th:text="${option}"></option>
-					</select>
-				</span>
-
-            <span th:if="${questions.Qtype == 'RQ'}">
-					<span th:text="'Min: ' + ${questions.min}"></span>
-					<span th:text="'Max: ' + ${questions.max}"></span>
-				</span>
+            <p th:text="${question.questionText}"></p>
+        </td>
+        <td>
+            <p th:text="${question.QType}"></p>
         </td>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>
