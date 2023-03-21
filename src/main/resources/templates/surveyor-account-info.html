@@ -1,0 +1,43 @@
+<!-- IN PROGRESS -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Account Information</h1>
+    <b> Name:
+        <p type = "text" th:text= "${surveyor.name}"/>
+    </b>
+    <b> Username:
+        <p type = "text" th:text= "${surveyor.username}"/>
+    </b>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.app.surveymonkey.questions;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
@@ -11,8 +12,9 @@ public class Question implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    private String questionText;
 
+    @NotNull(message = "Question text cannot be null")
+    private String questionText;
 
     protected String QType;
 

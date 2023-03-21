@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey Result</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h1>Survey Result for User <span th:text="${response.id}"></span></h1>
+<h2>Survey: <span th:text="${survey.surveyName}"></span></h2>
+
+<table>
+    <tr th:each="answer : ${response.answers}">
+        <td th:text="${answer.questions.text}"></td>
+        <td>
+				<span th:if="${answer.questions.Qtype == 'TQ'}">
+					<p th:text="${answer.text}"></p>
+				</span>
+
+            <span th:if="${answer.questions.Qtype == 'RQ'}">
+					<p th:text="${answer.value}"></p>
+				</span>
+
+            <span th:if="${answer.questions.Qtype == 'MCQ'}">
+					<p th:text="${answer.choice}"></p>
+				</span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

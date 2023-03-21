@@ -2,6 +2,7 @@ package com.app.surveymonkey.surveyor;
 
 import com.app.surveymonkey.survey.Survey;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,8 +13,14 @@ public class Surveyor {
     @Id
     @GeneratedValue
     private int id;
+
+    @NotNull(message = "Surveyor name cannot be null")
     private String name;
+
+    @NotNull(message = "Surveyor username cannot be null")
     private String username;
+
+    @NotNull(message = "Surveyor password cannot be null")
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -1,6 +1,8 @@
 package com.app.surveymonkey.questions;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,9 +15,13 @@ public class RangeQuestion extends Question {
 
     @ElementCollection
     private List<Integer> rangeList;
+
+    @NotNull(message = "RQ needs an answer")
     private int answer;
 
+    @Min(1)
     private int min;
+
     private int max;
 
     public RangeQuestion() {

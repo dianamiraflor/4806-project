@@ -6,6 +6,8 @@ import com.app.surveymonkey.questions.RangeQuestion;
 import com.app.surveymonkey.questions.TextQuestion;
 import com.app.surveymonkey.surveyor.Surveyor;
 import jakarta.persistence.*;
+import jakarta.validation.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,7 +28,10 @@ public class Survey {
         this.open = open;
     }
 
+
     private Boolean open;
+
+    @NotNull(message = "Survey name cannot be null")
     private String surveyName;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -34,6 +39,7 @@ public class Survey {
 
     public Survey() {
         this.questions = new HashSet();
+        this.open = false;
     }
 
     public Survey(int id) {

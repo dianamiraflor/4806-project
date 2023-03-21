@@ -2,6 +2,8 @@ package com.app.surveymonkey.questions;
 
 import jakarta.persistence.*;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +16,11 @@ public class MultipleChoiceQuestion extends Question {
 
     @ElementCollection
     private List<String> choices;
+
+    @Min(2)
     private int choices_limit;
+
+    @NotNull(message = "MCQ needs an answer")
     private String answer;
     public MultipleChoiceQuestion() {
         this.choices_limit = 0;
