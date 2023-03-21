@@ -55,14 +55,16 @@
 <body>
 <div class="container">
     <h1>Create Survey</h1>
-    <form action="#" th:action="@{/survey/create}" th:object="${survey}" method="post">
+    <form action="#" th:action="@{/savesurvey}" th:object="${survey}" method="post">
         <div class="form-group">
             <label for="surveyName">Survey Title:</label>
             <input type="text" id="surveyName" th:field="*{surveyName}" class="form-control"/>
+            <button id="create-survey" type="submit" class="btn btn-primary" disabled>Create Survey</button>
         </div>
+    </form>
+    <form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
         <div id="questions"></div>
         <button id="add-question" type="button" class="btn btn-primary">Add Question</button>
-        <button id="create-survey" type="submit" class="btn btn-primary" disabled>Create Survey</button>
     </form>
 </div>
 <script>
@@ -106,9 +108,6 @@
             $(`#question-${questionIndex} .range-container`).remove();
         }
     }
-
-
-
 
     function updateCreateSurveyButton() {
         const title = $('#surveyName').val().trim();

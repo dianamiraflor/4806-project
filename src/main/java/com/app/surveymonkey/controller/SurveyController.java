@@ -24,7 +24,6 @@ public class SurveyController {
 
     @Autowired
     private SurveyorRepo surveyorRepo;
-
     @GetMapping("/newSurvey")
     public String newSurvey(Model model) {
         model.addAttribute("survey", new Survey());
@@ -33,7 +32,6 @@ public class SurveyController {
 
     @PostMapping("/newSurvey")
     public String startAdding(@ModelAttribute @Validated Survey survey) {
-        survey.setOpen(true);
         surveyRepo.save(survey);
         return "redirect:/surveys/" + survey.getId();
     }
@@ -74,14 +72,15 @@ public class SurveyController {
     @PostMapping("/savesurvey")
     public String saveSurvey(@ModelAttribute @Validated Survey survey) {
         survey.setOpen(true);
-        surveyRepo.save(survey);
-        return "survey-initialize";
+        return "surveyor-homepage";
     }
 
     @GetMapping("/viewsurvey/{surveyId}")
     public String viewSurvey(@PathVariable("surveyId") int surveyId, Model model) {
         Survey survey = surveyRepo.findById(surveyId);
+        Iterable<Question> questions = survey.getQuestions();
         model.addAttribute("survey", survey);
+        model.addAttribute("questions", questions);
         return "survey-view";
     }
     @GetMapping("/home")
