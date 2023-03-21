@@ -23,7 +23,6 @@ public class MultipleChoiceQuestion extends Question {
     @NotNull(message = "MCQ needs an answer")
     private String answer;
     public MultipleChoiceQuestion() {
-        this.choices_limit = 0;
         this.answer = null;
         this.choices = new ArrayList<>();
         this.QType = "MCQ";
