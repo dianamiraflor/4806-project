@@ -54,10 +54,10 @@ public class Survey {
             questions.add(question);
         }
     }
-
+    
     public void addResponse(Response response) {
         if(response != null) {
-
+            
             responses.add(response);
         }
     }
@@ -91,6 +91,10 @@ public class Survey {
 
     public Collection<Question> getQuestions() {
         return this.questions;
+    }
+
+    public Collection<Response> getResponses(){
+        return this.responses;
     }
 
     @Override

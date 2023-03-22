@@ -2,30 +2,108 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Survey Result</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Survey Results</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 36px;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 5px;
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        table,th,td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        a {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+        }
+
+        a:hover {
+            background-color: #26779e;
+        }
+
+
+        select {
+            font-size: 14px;
+            border: none;
+            width: 100%;
+            background: white;
+        }
+
+        .fill {
+            width: 100%;
+            text-align: center;
+        }
+
+    </style>
+
 </head>
 <body>
-<h1>Survey Result for User <span th:text="${response.id}"></span></h1>
-<h2>Survey: <span th:text="${survey.surveyName}"></span></h2>
+<h1>Results for survey: <span th:text="${survey.surveyName}"></span></h1>
 
-<table>
-    <tr th:each="answer : ${response.answers}">
-        <td th:text="${answer.questions.text}"></td>
-        <td>
-				<span th:if="${answer.questions.Qtype == 'TQ'}">
-					<p th:text="${answer.text}"></p>
-				</span>
+<table style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th th:each="question : ${survey.questions}" th:text="${question.text}"></th>
+    </tr>
 
-            <span th:if="${answer.questions.Qtype == 'RQ'}">
-					<p th:text="${answer.value}"></p>
-				</span>
-
-            <span th:if="${answer.questions.Qtype == 'MCQ'}">
-					<p th:text="${answer.choice}"></p>
-				</span>
+    <tr th:each="response : ${survey.responses}">
+        <td th:text="${response.startTime}"></td>
+        <td th:text="${response.endTime}"></td>
+        <td th:each="answer: ${response.answers}" th:text="${answer}">
         </td>
     </tr>
 </table>
+<div class = "fill">
+    <a  th:href="@{'/home'}"> Return Home </a>
+</div>
 </body>
 </html>

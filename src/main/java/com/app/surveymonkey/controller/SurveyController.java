@@ -90,6 +90,13 @@ public class SurveyController {
         return "redirect:/viewsurvey/"+ surveyId;
     }
 
+    @GetMapping("/surveys/results/{surveyId}")
+    public String getresults(@PathVariable("surveyId") int surveyId,Model model){
+        Survey survey=surveyRepo.findById(surveyId);
+        model.addAttribute("survey",survey);
+        return("survey-result");
+    }
+
 
 
 

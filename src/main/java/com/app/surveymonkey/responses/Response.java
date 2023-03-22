@@ -67,5 +67,12 @@ public class Response {
         this.endTime = time;
     }
 
+    public LocalDateTime getStartTime(){
+        return this.startTime;
+    }
+    public LocalDateTime getEndTime(){
+        return this.endTime;
+    }
+
 
 }
