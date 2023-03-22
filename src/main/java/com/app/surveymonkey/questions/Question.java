@@ -1,55 +1,92 @@
 package com.app.surveymonkey.questions;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
-import java.io.Serializable;
+import com.app.surveymonkey.survey.Survey;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table
-public class Question implements Serializable {
+public class Question {
 
-    @Id
-    @GeneratedValue
-    private int id;
-
-    @NotNull(message = "Question text cannot be null")
-    private String questionText;
-
-    protected String QType;
-
-    public Question() {
-        this.questionText = null;
+    public enum QuestionType {
+        TEXT, RANGE, CHOICE
     }
 
-    // ----------------- GETTERS & SETTERS -------------------
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+
+    private String text;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
+
+    private Integer rangeMin;
+    private Integer rangeMax;
+
+    @ElementCollection
+    private List<String> choices = new ArrayList<>();
+
+    // Getters and setters
+
+    public Integer getRangeMin() {
+        return rangeMin;
+    }
+
+    public void setRangeMin(Integer rangeMin) {
+        this.rangeMin = rangeMin;
+    }
+
+    public Integer getRangeMax() {
+        return rangeMax;
+    }
+
+    public void setRangeMax(Integer rangeMax) {
+        this.rangeMax = rangeMax;
+    }
+
+    public List<String> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<String> choices) {
+        this.choices = choices;
+    }
+
+    public QuestionType getType() {
+        return type;
+    }
+
+    public void setType(QuestionType type) {
+        this.type = type;
+    }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getQuestionText() {
-        return this.questionText;
+    public String getText() {
+        return text;
     }
 
-    public void setQuestionText(String question) {
-        this.questionText = question;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getQType() {
-        return QType;
+    public Survey getSurvey() {
+        return survey;
     }
 
-    public void setQType(String QType) {
-        this.QType = QType;
-    }
-
-    public String toString() {
-        String questionString = "Question: " + getQuestionText() + " \n";
-        return questionString;
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 }

@@ -1,12 +1,8 @@
 package com.app.surveymonkey.survey;
 
-import com.app.surveymonkey.questions.MultipleChoiceQuestion;
 import com.app.surveymonkey.questions.Question;
-import com.app.surveymonkey.questions.RangeQuestion;
-import com.app.surveymonkey.questions.TextQuestion;
-import com.app.surveymonkey.surveyor.Surveyor;
+import com.app.surveymonkey.responses.Response;
 import jakarta.persistence.*;
-import jakarta.validation.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
@@ -37,13 +33,18 @@ public class Survey {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Question> questions;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Collection<Response> responses;
+
     public Survey() {
         this.questions = new HashSet();
+        this.responses = new HashSet();
         this.open = false;
     }
 
     public Survey(int id) {
         this.questions = new HashSet();
+        this.responses = new HashSet();
         this.id = id;
         this.open=false;
     }
@@ -53,6 +54,14 @@ public class Survey {
             questions.add(question);
         }
     }
+    
+    public void addResponse(Response response) {
+        if(response != null) {
+            
+            responses.add(response);
+        }
+    }
+
 
     public void removeQuestion(Question question) {
         Iterator<Question> questionIterator = questions.iterator();
@@ -82,6 +91,10 @@ public class Survey {
 
     public Collection<Question> getQuestions() {
         return this.questions;
+    }
+
+    public Collection<Response> getResponses(){
+        return this.responses;
     }
 
     @Override

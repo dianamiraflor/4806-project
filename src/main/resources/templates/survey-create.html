@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Survey</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: 'Comfortaa', cursive;
@@ -20,25 +22,13 @@
             text-align: center;
         }
 
-        h1, h2 {
+        h1 {
             font-size: 32px;
             color: #333;
             margin-bottom: 30px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        a, button {
+        a.button {
             background-color: #007BFF;
             border: none;
             color: white;
@@ -51,133 +41,158 @@
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s;
-            font-family: 'Comfortaa', cursive;
-            font-weight: 300;
+        }
+        .delete-question {
+            position: relative;
+            margin-top: 5px ;
         }
 
-        a:hover, button:hover {
+        a.button:hover {
             background-color: #0056b3;
-        }
-
-        input, select {
-            font-family: 'Comfortaa', cursive;
-            font-weight: 300;
-        }
-
-        .hidden {
-            display: none;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1 th:text="${survey.surveyName}"></h1>
-
-    <form method="post" th:action="@{/savesurvey}" th:object="${survey}">
-        <h2>Questions:</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Question Text</th>
-                <th>Question Type</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="questions: ${survey.questions}">
-                <td>
-                    <p type="text" th:text="${questions.questionText}" />
-                </td>
-                <td>
-                    <p type="text" th:text="${questions.QType}" />
-                </td>
-                <td>
-                    <a th:href="@{'/surveys/' + ${survey.id} +'/delete/'+ ${questions.id}}">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <form action="" method="post" th:object="${NewQuestion}" th:action="@{'/surveys/' + ${survey.id}}">
-                    <td>
-                        <p><input type="text" th:field="*{questionText}"/></p>
-                    </td>
-                    <td>
-                        <label for="type"></label>
-                        <select id="qType" name="type" th:field="*{QType}">
-                            <option value="TQ">Open-Ended</option>
-                            <option value="RQ">Range</option>
-                            <option value="MCQ">Multiple Choice</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button type="submit">Add Question</button>
-                    </td>
-                </form>
-            </tr>
-            </tbody>
-        </table>
-        <th:block th:each="questions: ${survey.questions}">
-            <th:block th:if="${questions.QType == 'MCQ'}">
-                <h3 th:text="${questions.questionText}"></h3>
-                <form action="" method="post" th:object="${NewAnswer}" th:action="@{'/surveys/' + ${survey.id} + '/questions/' + ${questions.id}}">
-                    <ul>
-                        <li th:each="choice, choiceStat: ${questions.choices}">
-                            <input type="checkbox" th:name="*{answers}" th:value="${choice}" class="choice-checkbox hidden" />
-                            <label th:text="${choice}"></label>
-                        </li>
-                    </ul>
-                    <div class="add-choice-container">
-                        <p><input type="text" class="choice-input" th:field="*{choice}" /></p>
-                        <button type="button" class="add-choice-btn">Add Choice</button>
-                    </div>
-                </form>
-            </th:block>
-        </th:block>
-        <button type="submit">Save Survey</button>
+    <h1>Create Survey</h1>
+    <form action="/surveys/${surveyId}" th:action="@{/surveys/{surveyId}(surveyId=${surveyId})}" th:object="${survey}" method="post">
+        <div class="form-group">
+            <label for="surveyName">Survey Title:</label>
+            <input type="text" id="surveyName" th:field="*{surveyName}" class="form-control"/>
+        </div>
+        <div id="questions"></div>
+        <button id="add-question" type="button" class="btn btn-primary">Add Question</button>
+        <button id="create-survey" type="submit" class="btn btn-primary" disabled>Create Survey</button>
     </form>
-
 </div>
 <script>
-    const select = document.querySelector('#qType');
-    const addChoiceContainer = document.querySelector('.add-choice-container');
-    const addChoiceBtn = document.querySelector('.add-choice-btn');
-    const choiceInput = document.querySelector('.choice-input');
-
-    // Hide the add choice container and input field at the start
-    addChoiceContainer.classList.add('hidden');
-    choiceInput.classList.add('hidden');
-
-    select.addEventListener('change', () => {
-        if (select.value === 'MCQ') {
-            addChoiceContainer.classList.remove('hidden');
-            addChoiceBtn.style.display = 'inline-block';
-            choiceInput.classList.remove('hidden');
+    function addChoiceInput(questionIndex) {
+        const choiceIndex = $(`#question-${questionIndex} .choice`).length;
+        const choiceHtml = `
+            <div class="form-group choice">
+                <label for="choice-text">Choice:</label>
+                <input type="text" id="choice-text" name="questions[${questionIndex}].choices[${choiceIndex}]" class="form-control"/>
+            </div>`;
+        $(`#question-${questionIndex} .choices`).append(choiceHtml);
+    }
+    function updateQuestion(questionIndex) {
+        const questionType = $(`#question-${questionIndex} select`).val();
+        if (questionType === 'CHOICE') {
+            if (!$(`#question-${questionIndex} .choices`).length) {
+                $(`#question-${questionIndex}`).append('<div class="choices"></div>');
+                addChoiceInput(questionIndex);
+                $(`#question-${questionIndex}`).append('<button type="button" class="btn btn-secondary add-choice">Add Choice</button>');
+            }
+            // Remove range inputs when question type changes
+            $(`#question-${questionIndex} .range-container`).remove();
+        } else if (questionType === 'RANGE') {
+            if (!$(`#question-${questionIndex} .range-container`).length) {
+                const rangeHtml = `
+                <div class="form-group range-container">
+                    <label for="range-min">Min:</label>
+                    <input type="number" id="range-min" name="questions[${questionIndex}].rangeMin" class="form-control"/>
+                    <label for="range-max">Max:</label>
+                    <input type="number" id="range-max" name="questions[${questionIndex}].rangeMax" class="form-control"/>
+                </div>`;
+                $(`#question-${questionIndex}`).append(rangeHtml);
+            }
+            // Remove choice inputs when question type changes
+            $(`#question-${questionIndex} .choices`).remove();
+            $(`#question-${questionIndex} .add-choice`).remove();
         } else {
-            addChoiceContainer.classList.add('hidden');
-            addChoiceBtn.style.display = 'none';
-            choiceInput.classList.add('hidden');
-            choiceInput.value = '';
+            // Remove choice inputs and range inputs when question type changes
+            $(`#question-${questionIndex} .choices`).remove();
+            $(`#question-${questionIndex} .add-choice`).remove();
+            $(`#question-${questionIndex} .range-container`).remove();
         }
-    });
+    }
 
-    addChoiceBtn.addEventListener('click', () => {
-        const ul = document.querySelector('ul');
-        const li = document.createElement('li');
-        const choiceValue = choiceInput.value;
-        const input = document.createElement('input');
-        const label = document.createElement('label');
-        input.setAttribute('type', 'radio');
-        input.setAttribute('name', questions.id);
-        input.setAttribute('value', choiceValue);
-        label.textContent = choiceValue;
-        li.appendChild(input);
-        li.appendChild(label);
-        ul.appendChild(li);
-        choiceInput.value = '';
+
+
+
+    function updateCreateSurveyButton() {
+        const title = $('#surveyName').val().trim();
+        const questions = $('#questions .question');
+        let validQuestions = 0;
+
+        questions.each(function() {
+            const questionText = $(this).find('#question-text').val().trim();
+            const questionType = $(this).find('#question-type').val();
+            const choices = $(this).find('.choice #choice-text').filter(function() {
+                return this.value.trim() !== '';
+            });
+
+            if (questionText.length > 0) {
+                if (questionType === 'CHOICE') {
+                    if (choices.length >= 2) {
+                        validQuestions++;
+                    }
+                } else if (questionType === 'RANGE') {
+                    const rangeMin = $(this).find('.range-container #range-min').val().trim();
+                    const rangeMax = $(this).find('.range-container #range-max').val().trim();
+
+                    if (rangeMin.length > 0 && rangeMax.length > 0 && parseInt(rangeMin) <= parseInt(rangeMax)) {
+                        validQuestions++;
+                    }
+                } else {
+                    validQuestions++;
+                }
+            }
+        });
+
+        if (title.length > 0 && validQuestions > 0) {
+            $('#create-survey').prop('disabled', false);
+        } else {
+            $('#create-survey').prop('disabled', true);
+        }
+    }
+
+
+    $(document).ready(function() {
+        $('#add-question').click(function() {
+            const questionIndex = $('#questions .question').length;
+            const questionHtml = `
+                <div class="question" id="question-${questionIndex}">
+                    <div class="form-group">
+                        <label for="question-text">Question:</label>
+                        <input type="text" id="question-text" name="questions[${questionIndex}].text" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="question-type">Type:</label>
+                    <select id="question-type" name="questions[${questionIndex}].type" class="form-control" onchange="updateQuestion(${questionIndex})">
+                        <option value="TEXT">TEXT</option>
+                        <option value="RANGE">RANGE</option>
+                        <option value="CHOICE">CHOICE</option>
+                    </select>
+                <button type="button" class="btn btn-danger delete-question">Delete Question</button>
+
+                </div>
+
+            </div>`;
+            $('#questions').append(questionHtml);
+            updateCreateSurveyButton();
+        });
+
+        $(document).on('click', '.add-choice', function() {
+            const questionIndex = $(this).closest('.question').attr('id').split('-')[1];
+            addChoiceInput(questionIndex);
+        });
+
+        $(document).on('click', '.delete-question', function() {
+            $(this).closest('.question').remove();
+            updateCreateSurveyButton();
+        });
+
+
+        // Update the Create Survey button when the title or question text changes
+        $(document).on('input', '#title', updateCreateSurveyButton);
+        $(document).on('input', '#question-text', updateCreateSurveyButton);
+        $(document).on('input', '.choice #choice-text', updateCreateSurveyButton);
+        $(document).on('change', '#question-type', updateCreateSurveyButton);
+        $(document).on('input', '.range-container #range-min', updateCreateSurveyButton);
+        $(document).on('input', '.range-container #range-max', updateCreateSurveyButton);
+
     });
 </script>
-
-
-
-
 </body>
 </html>
