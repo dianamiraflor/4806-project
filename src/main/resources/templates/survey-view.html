@@ -14,22 +14,23 @@
         <th>Options</th>
     </tr>
 
-    <tr th:each="questions : ${survey.questions}">
-        <td th:text="${questions.text}"></td>
-        <td th:text="${questions.type}"></td>
+    <tr th:each="question : ${survey.questions}">
+        <td th:text="${question.text}"></td>
+        <td th:text="${question.type}"></td>
         <td>
-				<span th:if="${questions.Qtype == 'MCQ'}">
+				<span th:if="${question.choices.size() != 0}">
 					<select>
-						<option th:each="option : ${questions.options}" th:text="${option}"></option>
+						<option th:each="option : ${question.choices}" th:text="${option}"></option>
 					</select>
 				</span>
 
-            <span th:if="${questions.Qtype == 'RQ'}">
-					<span th:text="'Min: ' + ${questions.min}"></span>
-					<span th:text="'Max: ' + ${questions.max}"></span>
+            <span th:if="${question.rangeMin != null}">
+					<span th:text="'Min: ' + ${question.rangeMin}"></span>
+					<span th:text="'Max: ' + ${question.rangeMax}"></span>
 				</span>
         </td>
     </tr>
 </table>
+<a  th:href="@{'/surveys/fill/' + ${survey.id}}"> Fill Survey </a>
 </body>
 </html>

@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Fill Survey</title>
-	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Fill Survey</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 <h1>Fill Survey: <span th:text="${survey.surveyName}"></span></h1>
 
-<form th:action="@{/submit-survey}" th:object="${surveyResponse}" method="post">
-	<table>
-		<tr th:each="questions : ${survey.questions}">
-			<td th:text="${questions.text}"></td>
-			<td>
-          <span th:if="${questions.Qtype == 'TQ	'}">
-            <textarea th:field="*{answers[__${questions.id}__]}" rows="4" cols="50"></textarea>
-          </span>
+<form th:action="@{/submit-survey/{surveyId}(surveyId=${survey.id})}" th:object="${responses}" method="post">
 
-				<span th:if="${questions.Qtype == 'RQ'}">
-            <input type="range" th:field="*{answers[__${questions.id}__]}" th:min="${questions.min}" th:max="${questions.max}" step="1">
-            <p>
-              <span th:text="'Min: ' + ${questions.min}"></span>
-              <span th:text="'Max: ' + ${questions.max}"></span>
-            </p>
-        </span>
 
-				<span th:if="${questions.Qtype == 'MCQ'}">
-            <select th:field="*{answers[__${questions.id}__]}">
-              <option th:each="option : ${questions.options}" th:text="${option}"></option>
-            </select>
-        </span>
-			</td>
-		</tr>
-	</table>
+    <table>
+        <tr th:each="question, iStat : ${survey.questions}">
+            <td th:text="${question.text}"></td>
+            <td>
+              <span th:if="${question.rangeMin==null and question.choices.size()==0}">
+                <textarea th:field="*{answers[__${iStat.index}__]}"  rows="4" cols="50"></textarea>
+              </span>
 
-	<button type="submit">Submit Survey</button>
+                <span th:if="${question.rangeMin != null}">
+                 <input type="range" th:field="*{answers[__${iStat.index}__]}" th:min="${question.rangeMin}"
+                        th:max="${question.rangeMax}" step="1" th:value="${question.rangeMin}">
+                     <p>
+                        <span th:text="'Min: ' + ${question.rangeMin}"></span>
+                        <span th:text="'Max: ' + ${question.rangeMax}"></span>
+                     </p>
+              </span>
+
+                <span th:if="${question.choices.size() != 0}">
+					<select th:field="*{answers[__${iStat.index}__]}">
+						<option th:value="${option}" th:each="option : ${question.choices}" th:text="${option}"></option>
+					</select>
+				</span>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Submit Survey</button>
 </form>
+
 </body>
 </html>
 
