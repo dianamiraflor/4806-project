@@ -10,5 +10,7 @@ public interface SurveyRepo extends CrudRepository <Survey, Integer>{
     Survey findById(int id);
     Survey findTopByOrderByIdDesc();
 
+    Iterable<Survey> findAllByOpenTrue();
+
 
 }

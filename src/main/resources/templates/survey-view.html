@@ -108,11 +108,22 @@
         </td>
     </tr>
 </table>
+
 <div class = "fill">
-<a  th:href="@{'/surveys/fill/' + ${survey.id}}"> Fill Survey </a>
+    <span th:if="${survey.open==true}">
+<a  th:href="@{'/surveys/fill/' + ${survey.id}}"> Fill Survey</a>
+    </span>
 </div>
+
 <div class = "fill">
     <a  th:href="@{'/surveys/results/' + ${survey.id}}"> View Results </a>
 </div>
+
+<div class = "fill">
+    <span th:if="${survey.open==true}">
+    <a  th:href="@{'/surveys/close/' + ${survey.id}}"> Close Survey</a>
+        </span>
+</div>
+
 </body>
 </html>

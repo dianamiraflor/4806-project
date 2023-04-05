@@ -70,14 +70,19 @@ public class SurveyController {
     @GetMapping("/surveys/fill/{surveyId}")
     public String fillSurvey(@PathVariable("surveyId") int surveyId, Model model){
         Survey survey = surveyRepo.findById(surveyId);
-        Response responses = new Response();
-        for(int i=0; i<survey.getQuestions().size();i++){
-            responses.addAnswer(" ");
+
+            Response responses = new Response();
+            for (int i = 0; i < survey.getQuestions().size(); i++) {
+                responses.addAnswer(" ");
+            }
+            responses.setSurvey(survey);
+            model.addAttribute("survey", survey);
+            model.addAttribute("responses", responses);
+        if(survey.getOpen()) {
+            return "survey-fill";
+        }else{
+            return "survey-closed";
         }
-        responses.setSurvey(survey);
-        model.addAttribute("survey", survey);
-        model.addAttribute("responses", responses);
-        return"survey-fill";
     }
 
     @PostMapping("/submit-survey/{surveyId}")
@@ -95,6 +100,15 @@ public class SurveyController {
         Survey survey=surveyRepo.findById(surveyId);
         model.addAttribute("survey",survey);
         return("survey-result");
+    }
+
+    @GetMapping("/surveys/close/{surveyId}")
+    public String closeSurvey(@PathVariable("surveyId") int surveyId,Model model){
+        Survey survey=surveyRepo.findById(surveyId);
+        model.addAttribute("survey",survey);
+        survey.setOpen(false);
+        surveyRepo.save(survey);
+        return("survey-closed");
     }
 
 
