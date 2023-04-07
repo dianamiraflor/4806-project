@@ -8,57 +8,9 @@
 <body>
 <h1>Survey Closed: <span th:text="${survey.surveyName}"></span></h1>
 
-<h2>Survey Results</h2>
-
-<table>
-  <tr th:each="questions : ${survey.questions}">
-    <td th:text="${questions.text}"></td>
-    <td>
-				<span th:if="${questions.Qtype == 'TQ'}">
-					<ul>
-						<li th:each="answer : ${questions.answers}" th:text="${answer}"></li>
-					</ul>
-				</span>
-
-      <span th:if="${questions.Qtype == 'RQ'}">
-					<!--
-					<div id="histogram"></div>
-					<script>
-						var data = [
-                          {
-                            x: [/* here we can populate the histogram data with the range values*/],
-                            type: 'histogram',
-                          },
-                        ];
-                        var layout = {
-                          title: 'Histogram of Responses',
-                          xaxis: {title: 'Value'},
-                          yaxis: {title: 'Count'},
-                        };
-                        Plotly.newPlot('histogram', data, layout);
-					</script>
-
-				 					-->
-				</span>
-
-      <span th:if="${questions.Qtype == 'MCQ'}">
-		<!--
-		  <div id="piechart"></div>
-					<script>
-						var data = [{
-                          values: [/* here we can populate the pie chart data with the choice options */],
-                          labels: [/* here we can populate the pie chart labels with the choice options */],
-                          type: 'pie'
-                        }];
-                        var layout = {
-                          title: 'Pie Chart of Responses'
-                        };
-                        Plotly.newPlot('piechart', data, layout);
-					</script>
-								-->
-				</span>
-    </td>
-  </tr>
-</table>
+<h2>To view results click button below</h2>
+<div class = "fill">
+    <a  th:href="@{'/surveys/results/' + ${survey.id}}"> View Results </a>
+</div>
 </body>
 </html>
