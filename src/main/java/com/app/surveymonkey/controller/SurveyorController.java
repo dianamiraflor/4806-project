@@ -28,6 +28,9 @@ public class SurveyorController {
     @PostMapping("/login")
     public String login(@ModelAttribute("username") @NotNull String username, @ModelAttribute("password") @NotNull String password,
                         @ModelAttribute Surveyor surveyor, Model model){
+        int id = surveyor.getId();
+        logger.info(Integer.toString(id));
+
         if (username == null | password == null) {
             return "badlogin";
         }
@@ -49,6 +52,9 @@ public class SurveyorController {
 
     @PostMapping(path = "/signup")
     public String createSurveyor(@ModelAttribute Surveyor surveyor, Model model){
+        int id = surveyor.getId();
+        logger.info(Integer.toString(id));
+
         surveyorRepo.save(surveyor);
         model.addAttribute("surveyor", surveyor);
         return "surveyor-homepage";
@@ -56,6 +62,8 @@ public class SurveyorController {
 
     @GetMapping("/surveyorHome")
     public String surveyorHome(@ModelAttribute Surveyor surveyor, Model model){
+        logger.info(Integer.toString(surveyor.getId()));
+
         model.addAttribute("surveyor", surveyor);
         return "surveyor-homepage";
     }
@@ -66,10 +74,13 @@ public class SurveyorController {
        return "users";
     }
 
-    @GetMapping("/viewCreatedSurveys")
-    public String viewCreatedSurveys(Model model, int id) {
-        // LOGIC FOR FINDING SURVEYOR'S CREATED SURVEYS
-        Surveyor surveyor = surveyorRepo.findById(id);
+    @GetMapping("/viewCreatedSurveys/{surveyorID}")
+    public String viewCreatedSurveys(@PathVariable("surveyorID") String surveyorID, Model model) {
+        int surveyor_id = Integer.parseInt(surveyorID);
+        Surveyor surveyor = surveyorRepo.findById(surveyor_id);
+        logger.info(Integer.toString(surveyor.getId()));
+        logger.info(surveyor.getName());
+
         Iterable<Survey> createdSurveys = surveyor.getSurveyList(); // Might be incompatible types with HTML?
 
         model.addAttribute("surveys", createdSurveys);
@@ -81,6 +92,8 @@ public class SurveyorController {
         int surveyor_id = Integer.parseInt(surveyorID);
 
         Surveyor surveyor = surveyorRepo.findById(surveyor_id);
+        logger.info(Integer.toString(surveyor.getId()));
+        logger.info(surveyor.getName());
         model.addAttribute("surveyor", surveyor);
         return "surveyor-account-info";
     }

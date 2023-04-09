@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SurveyMonkey Create Survey</title>
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: 'Comfortaa', cursive;
+      font-weight: 300;
+    }
+
+    h1 {
+      color: #333333;
+      font-size: 36px;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background-color: #ffffff;
+      border-radius: 5px;
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    label {
+      display: block;
+      font-size: 16px;
+      color: #333333;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button[type="submit"], button[type="reset"] {
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-family: 'Comfortaa', cursive;
+      font-weight: 300;
+    }
+
+    button[type="submit"]:hover, button[type="reset"]:hover {
+      background-color: #26779e;
+    }
+  </style>
+
+</head>
+<body>
+<h1 th:text="${survey.surveyName}"></h1>
+
+<form method="post"  th:action="@{'/savesurvey/'+${survey.id}}" th:object="${survey}">
+  <h2>Questions:</h2>
+  <table style="margin-left:auto;margin-right:auto;">
+    <tr>
+      <th>Question</th>
+      <th>Type</th>
+      <th>Options</th>
+    </tr>
+
+    <tr th:each="question : ${survey.questions}">
+      <td th:text="${question.text}"></td>
+      <td th:text="${question.type}"></td>
+      <td>
+          <span th:if="${question.choices.size() != 0}">
+                <select>
+                    <option th:each="option : ${question.choices}" th:text="${option}"></option>
+                </select>
+          </span>
+
+          <span th:if="${question.rangeMin != null}">
+					<span th:text="'Min: ' + ${question.rangeMin}"></span>
+					<span th:text="'Max: ' + ${question.rangeMax}"></span>
+          </span>
+      </td>
+    </tr>
+  </table>
+  <button type="submit">Save Survey</button>
+</form>
+
+<form action="" method="post" th:object="${questions}" th:action="@{'/surveys/' + ${survey.id}}">
+
+    <table style="margin-left:auto;margin-right:auto;">
+        <tr>
+            <th>Question</th>
+            <th>Type</th>
+            <th>Edit Options</th>
+        </tr>
+
+        <tr th:each="question, questionStat : ${questions}">
+            <td th:text="${question.text}"></td>
+            <td th:text="${question.type}"></td>
+            <td>
+            <div th:if="${question.type == T(com.app.surveymonkey.questions.QuestionType).CHOICE}">
+                <form action="" method="post" th:object="${question.choices}" th:action="@{'/surveys/' + ${survey.id}}">
+                <div th:each="choice, choiceStat : ${question.choices}">
+                    <p>Minimum Range: <input th:name="|choices[${choiceStat.index}]|" th:value="${question.getRangeMin()}"/></p>
+                </div>
+
+            </div>
+            <div th:if="${question.type == T(com.app.surveymonkey.questions.QuestionType).RANGE}">
+                <p>Minimum Range: <input th:name="|questions[${questionStat.index}].rangeMin|" th:value="${question.getRangeMin()}"/></p>
+                <p>Maximum Range: <input th:name="|questions[${questionStat.index}].rangeMax|" th:value="${question.getRangeMax()}"/></p>
+
+            </div>
+
+            </td>
+        </tr>
+    </table>
+
+
+    <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
+         <p>Please correct the errors below:</p>
+         <ul>
+             <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
+             <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
+         </ul>
+     </div>-->
+
+    <button type="submit">Save Questions</button>
+</form>
+
+</body>
+</html>

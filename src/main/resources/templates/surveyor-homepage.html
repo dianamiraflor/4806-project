@@ -73,7 +73,7 @@
 <div class="container">
     <a class="button" href="/newSurvey">Create New Survey</a>
     <br>
-    <a class="button" th:href="@{'/viewCreatedSurveys'}">View Created Surveys</a>
+    <a class="button" th:href="@{'/viewCreatedSurveys/' + ${surveyor.id}}">View Created Surveys</a>
     <br>
     <a class="button" th:href="@{'/accountInfo/' + ${surveyor.id}}">Account Information</a>
     <br>

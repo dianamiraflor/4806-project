@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SurveyMonkey Create Survey</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 36px;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 5px;
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button[type="submit"], button[type="reset"] {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-family: 'Comfortaa', cursive;
+            font-weight: 300;
+        }
+
+        button[type="submit"]:hover, button[type="reset"]:hover {
+            background-color: #26779e;
+        }
+    </style>
+
+</head>
+<body>
+<div class="question-create">
+<form id="question" name="question" method="post">
+    <label> Survey: <span id="s_id" th:text="${id}"></span></label>
+    <h2>Add a Question:</h2>
+
+    <div id="question-text-group">
+        <p>Question Text: <input  id="prompt" type="text" name="Title"/></p>
+    </div>
+
+    <div id="question-type-group">
+        <label for="type">Question Type:</label>
+        <select id="type" name="Type" onchange="handleChoice()">
+            <option value="TEXT">Open-Ended</option>
+            <option value="RANGE">Range</option>
+            <option value="CHOICE">Choice</option>
+        </select>
+    </div>
+
+
+    <div id="choices-container" style="display: none;">
+        <label for="choices">Choices:</label>
+        <div id="choices">
+            <input type="text" id="choice" name="choice" placeholder="Enter choice">
+        </div>
+        <button id="add-choice-button" onclick="addChoice()">Add Choice</button>
+    </div>
+
+
+    <div id="range-container" style="display: none;">
+            <label >Range:</label>
+            <div id="range">
+                <input type="text" id="rangeMin" name="min" placeholder="Minimum Value">
+                <input type="text" id="rangeMax" name="max" placeholder="Maximum Value">
+            </div>
+    </div>
+
+    <!-- <div th:if="${#fields.hasErrors('question') || #fields.hasErrors('QType')}">
+         <p>Please correct the errors below:</p>
+         <ul>
+             <li th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Text is required</li>
+             <li th:if="${#fields.hasErrors('QType')}" th:errors="*{QType}">Type is required</li>
+         </ul>
+     </div>-->
+
+    <button type="submit" class="btn btn-success">Add Question</button>
+</form>
+</div>
+<script>
+    let choices = []
+    function handleChoice() {
+        const choicesContainer = $("#choices-container");
+        const rangeContainer = $("#range-container");
+        const addChoiceButton = $("#add-choice-button");
+
+        const selected = document.getElementById("type").value;
+
+        if (selected === "CHOICE") {
+            choices = []
+            while(true) {
+                let input = prompt("Add a choice");
+                if (input === null) {
+                    break;
+                }
+                choices.push(input);
+                console.log(choices);
+            }
+        } else if (selected == "RANGE") {
+            rangeContainer.show();
+            choicesContainer.hide();
+            addChoiceButton.hide();
+        } else {
+            choicesContainer.hide();
+            addChoiceButton.hide();
+            rangeContainer.hide();
+        }
+
+    }
+
+    let choiceIndex = 1;
+    function addChoice() {
+        const addButton = document.getElementById("add-choice-btn");
+        const container = document.getElementById("choices");
+        const newChoice = document.createElement("input");
+        newChoice.setAttribute("type", "text");
+        newChoice.setAttribute("name", "choice" + choiceIndex);
+        newChoice.setAttribute("placeholder", "Enter choice " + choiceIndex);
+        container.appendChild(newChoice);
+        choiceIndex++;
+    }
+
+    $("form").submit(function (event) {
+        let formData = {};
+
+        if  ($("#type").val() == 'CHOICE') {
+            formData = {
+                prompt: $("#prompt").val(),
+                type: $("#type").val(),
+                choicesList: choices
+            };
+        }
+        else {
+            formData = {
+                prompt: $("#prompt").val(),
+                type: $("#type").val(),
+                min: $("#rangeMin").val(),
+                max: $("#rangeMax").val(),
+            };
+        }
+
+        console.log(formData)
+        console.log(JSON.stringify(formData))
+
+        const url = '/surveys/create/' + $('#s_id').text();
+        console.log(url);
+
+        const redirect_url = '/surveys/create/view/' + + $('#s_id').text();
+        console.log(redirect_url);
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/surveys/create/' + $('#s_id').text(),
+            data: JSON.stringify(formData),
+            contentType: "application/json; charset=utf-8",
+            traditional: true,
+            success: (response) => {
+                console.log("Success: ", response);
+                window.location = redirect_url
+            },
+            error: (xhr, status, error) => {
+                alert("Question Added Error");
+                console.error("Error: ", error);
+            }
+        })
+    });
+
+</script>
+</body>
+</html>

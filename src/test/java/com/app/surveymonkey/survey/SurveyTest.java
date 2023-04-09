@@ -2,6 +2,7 @@
 package com.app.surveymonkey.survey;
 
 import com.app.surveymonkey.questions.Question;
+import com.app.surveymonkey.questions.QuestionType;
 import com.app.surveymonkey.surveyor.Surveyor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class SurveyTest {
 
         mcq1 = new Question();
         mcq1.setText("MCQ_Test");
-        mcq1.setType(Question.QuestionType.CHOICE);
+        mcq1.setType(QuestionType.CHOICE);
         List<String> choices_list = new ArrayList<>();
         choices_list.add("Choice1");
         choices_list.add("Choice2");
@@ -42,14 +43,14 @@ public class SurveyTest {
 
         rq1 = new Question();
         rq1.setText("RQ_Test");
-        rq1.setType(Question.QuestionType.RANGE);
+        rq1.setType(QuestionType.RANGE);
         rq1.setRangeMin(1);
         rq1.setRangeMax(3);
         rq1.setSurvey(survey);
 
         tq1 = new Question();
         tq1.setText("TQ_Test");
-        tq1.setType(Question.QuestionType.TEXT);
+        tq1.setType(QuestionType.TEXT);
         tq1.setSurvey(survey);
 
         survey.addQuestion(mcq1);
@@ -74,23 +75,23 @@ public class SurveyTest {
     }
     @Test
     public void testCreatedMCQ() {
-        Question.QuestionType type = mcq1.getType();
+        QuestionType type = mcq1.getType();
         String text = mcq1.getText();
         List<String> choices = mcq1.getChoices();
 
-        assertEquals(Question.QuestionType.CHOICE, type);
+        assertEquals(QuestionType.CHOICE, type);
         assertEquals("MCQ_Test", text);
         assertEquals(3, choices.size());
     }
 
     @Test
     public void testCreatedRQ() {
-        Question.QuestionType type = rq1.getType();
+        QuestionType type = rq1.getType();
         String text = rq1.getText();
         Integer min = rq1.getRangeMin();
         Integer max = rq1.getRangeMax();
 
-        assertEquals(Question.QuestionType.RANGE, type);
+        assertEquals(QuestionType.RANGE, type);
         assertEquals("RQ_Test", text);
         assertEquals(1, min);
         assertEquals(3, max);
@@ -98,10 +99,10 @@ public class SurveyTest {
 
     @Test
     public void testTQ() {
-        Question.QuestionType type = tq1.getType();
+        QuestionType type = tq1.getType();
         String text = tq1.getText();
 
-        assertEquals(Question.QuestionType.TEXT, type);
+        assertEquals(QuestionType.TEXT, type);
         assertEquals("TQ_Test", text);
     }
 
