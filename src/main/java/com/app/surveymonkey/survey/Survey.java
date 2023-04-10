@@ -5,12 +5,13 @@ import com.app.surveymonkey.responses.Response;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
 @Entity
-public class Survey {
+public class Survey implements Serializable {
 
     @Id
     @GeneratedValue

@@ -1,6 +1,7 @@
 package com.app.surveymonkey;
 
 import com.app.surveymonkey.questions.Question;
+import com.app.surveymonkey.questions.QuestionType;
 import com.app.surveymonkey.repositories.QuestionRepo;
 import com.app.surveymonkey.repositories.SurveyRepo;
 import com.app.surveymonkey.repositories.SurveyorRepo;
@@ -19,8 +20,6 @@ public class SurveyMonkeyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SurveyMonkeyApplication.class, args);
 	}
-
-
 	@Bean
 	public CommandLineRunner test(SurveyRepo surveyRepo, QuestionRepo questionRepo, SurveyorRepo surveyorRepo) {
 		return(args) -> {
@@ -38,7 +37,7 @@ public class SurveyMonkeyApplication {
 			Question mcq1 = new Question();
 
 			mcq1.setText("MCQ_Test");
-			mcq1.setType(Question.QuestionType.CHOICE);
+			mcq1.setType(QuestionType.CHOICE);
 			List<String> choices = new ArrayList<>();
 			choices.add("Choice1");
 			choices.add("Choice2");
@@ -49,7 +48,7 @@ public class SurveyMonkeyApplication {
 			Question rq1 = new Question();
 
 			rq1.setText("RQ_Test");
-			rq1.setType(Question.QuestionType.RANGE);
+			rq1.setType(QuestionType.RANGE);
 			rq1.setRangeMin(1);
 			rq1.setRangeMax(3);
 			rq1.setSurvey(survey);
@@ -57,7 +56,7 @@ public class SurveyMonkeyApplication {
 			Question tq1 = new Question();
 
 			tq1.setText("TQ_Test");
-			tq1.setType(Question.QuestionType.TEXT);
+			tq1.setType(QuestionType.TEXT);
 			tq1.setSurvey(survey);
 
 			survey.addQuestion(mcq1);

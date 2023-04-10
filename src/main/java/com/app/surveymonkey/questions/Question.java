@@ -3,15 +3,13 @@ package com.app.surveymonkey.questions;
 import com.app.surveymonkey.survey.Survey;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Question {
+public class Question implements Serializable {
 
-    public enum QuestionType {
-        TEXT, RANGE, CHOICE
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

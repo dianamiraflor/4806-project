@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>View Survey</title>
   <link href="https://fonts.googleapis.com/css?family=Comfortaa:300&display=swap" rel="stylesheet">
   <style>
     body {
@@ -44,9 +44,7 @@
       box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-
-
-    input[type="submit"] {
+    a {
       background-color: #007BFF;
       border: none;
       color: white;
@@ -63,21 +61,58 @@
       font-weight: 300;
     }
 
-    input[type="submit"]:hover {
-      background-color: #0056b3;
+    a:hover {
+      background-color: #26779e;
     }
+
+
+    select {
+      font-size: 14px;
+      border: none;
+      width: 100%;
+      background: white;
+    }
+
+    .fill {
+      width: 100%;
+      text-align: center;
+    }
+
   </style>
 
 </head>
-
 <body>
-<h1>Log In</h1>
-<form action="#" th:action="@{/login}" th:object="${surveyor}" method="post">
-  <em> Username or password incorrect. </em>
-  <p>Username: <input type="text" th:field="*{username}" name="username"/></p>
-  <p>Password: <input type="password" th:field="*{password}" name="password"/></p>
-  <p><input type="submit" value="Log In" /></p>
-</form>
+<h1>View Survey: <span th:text="${survey.surveyName}"></span></h1>
 
+<table style="margin-left:auto;margin-right:auto;">
+  <tr>
+    <th>Question</th>
+    <th>Type</th>
+    <th>Options</th>
+  </tr>
+
+  <tr th:each="question : ${survey.questions}">
+    <td th:text="${question.text}"></td>
+    <td th:text="${question.type}"></td>
+    <td>
+            <span th:if="${question.choices.size() != 0}">
+                <select>
+                    <option th:each="option : ${question.choices}" th:text="${option}"></option>
+                </select>
+            </span>
+
+      <span th:if="${question.rangeMin != null}">
+					<span th:text="'Min: ' + ${question.rangeMin}"></span>
+					<span th:text="'Max: ' + ${question.rangeMax}"></span>
+            </span>
+    </td>
+  </tr>
+</table>
+
+<div class="container">
+  <br>
+  <a class="button" href = "/surveyorHome">Back to Homepage</a>
+  <br>
+</div>
 </body>
 </html>
